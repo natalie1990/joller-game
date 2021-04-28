@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>joller</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <!-- SOFTWARE DEVELOPMENT KIT -->
+        <script src="../lib/rune.js"></script>
+        
+        <!-- APPLICATION SOURCE CODE -->
+        <script src="../dist/joller.js"></script>
+        
+        <!-- BOOTSTRAP -->
+        <script>
+            window.onload = function() {
+                var app = new joller.system.Main();
+                app.start();
+            }
+        </script>
+    </head>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>joller</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <!-- SOFTWARE DEVELOPMENT KIT -->
+        <script src="./plumber.js"></script>
+        <script src="../lib/rune.js"></script>
+        
+        <!-- APPLICATION SOURCE CODE -->
+        <script src="./../src/scope/Manifest.js"></script>
+        <script src="./../src/data/manifest/Resources.js"></script>
+		<script src="./../src/scene/menu/Menu.js"></script>
+        <script src="./../src/scene/game/Game.js"></script>
+        <script src="./../src/entity/FallingObj.js"></script>
+        <script src="./../src/entity/Thing.js"></script>
+        <script src="./../src/entity/Horse.js"></script>
+        <script src="./../src/entity/Kloss.js"></script>
+        <script src="./../src/ui/Hud.js"></script>
+        <script src="./../src/system/Main.js"></script>
+        <script src="./../src/scope/Alias.js"></script>
+
+
+        <!-- BOOTSTRAP -->
+        <script>
+            window.onload = function() {
+                var app = new joller.system.Main();
+                app.start();
+            }
+        </script>
+    </head>
+</html>
