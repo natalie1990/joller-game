@@ -90,7 +90,9 @@ joller.ui.Hud.prototype.dispose = function() {
 };
 
 joller.ui.Hud.prototype.updateScore = function(newScore){
-    this.pointsText.text = "Score:\n" + this.newScore;
+    this.removeChild(this.pointsText);
+    this.pointsText = new rune.text.BitmapField("");
+    this.pointsText.text = "Score:\n" + newScore;
     this.pointsText.autoSize = true;
     this.pointsText.x = 500;
     this.pointsText.y = 20;
