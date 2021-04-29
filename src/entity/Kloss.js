@@ -63,6 +63,5 @@ joller.entity.Kloss.prototype.update = function(step) {
  */
 joller.entity.Kloss.prototype.dispose = function() {
     joller.entity.Thing.prototype.dispose.call(this);
-    //@TODO: Write app code.
-    console.log("hej");
+ 
 };

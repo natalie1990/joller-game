@@ -42,13 +42,15 @@ joller.scene.Menu.prototype.constructor = joller.scene.Menu;
 joller.scene.Menu.prototype.init = function() {
     rune.scene.Scene.prototype.init.call(this);
     
-	//init logotyp osv
-	
-    var text = new rune.text.BitmapField("Hello Menu!");
-    text.autoSize = true;
-    text.center = this.application.screen.center;
+	var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
+    this.stage.addChild(backroundImg);
 
-    this.stage.addChild(text);
+    var logo = new rune.display.Graphic(300,280,800,200,"","logo");
+    logo.scaleX = 0.9;
+    logo.scaleY = 0.9;
+    logo.flicker(1500,200);
+    this.stage.addChild(logo);
+
 };
 
 /**

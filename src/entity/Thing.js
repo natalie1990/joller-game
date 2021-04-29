@@ -22,6 +22,7 @@
  */
 joller.entity.Thing = function(texture) {
     this.score = 0;
+    //this.toyArray = [];
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ joller.entity.Thing.prototype.constructor = joller.entity.Thing;
  */
 joller.entity.Thing.prototype.init = function() {
     rune.display.Sprite.prototype.init.call(this);
-    //@TODO: Write app code.
+
 };
 
 /**
@@ -52,13 +53,9 @@ joller.entity.Thing.prototype.init = function() {
  */
 joller.entity.Thing.prototype.update = function(step) {
     rune.display.Sprite.prototype.update.call(this, step);
-
+    
     this.y += 3;
 
-    if(this.y > 710){
-        this.parent.removeChild(this, true);
-    }
-    //@TODO: Write app code.
 };
 
 /**
@@ -68,4 +65,11 @@ joller.entity.Thing.prototype.dispose = function() {
     rune.display.Sprite.prototype.dispose.call(this);
     //@TODO: Write app code.
     //console.log("hej");
+};
+
+joller.entity.Thing.prototype.addToArray = function(){
+
+    
+    //this.toyArray.push(this);
+    //console.log(this.toyArray);
 };

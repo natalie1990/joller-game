@@ -9,6 +9,7 @@
 	this.placeToy = null; //Objekt för fallande objekt/leksak
 	this.hud = null; //Objekt för HUD
     this.toy = null;
+	this.selectedToyArray = [];
 
 
     /**
@@ -37,11 +38,6 @@ this.application.sounds.music.volume = 0.5;
 var music = this.application.sounds.music.get("bgmusic");
 //music.play();
 
-this.cameras.getCamera(0).debug = true;
-
-const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
-//this.stage.addChild(backroundImg);
-
 this.timers.create({
 	duration: 3000,
 	onTick: this.addToy,
@@ -51,10 +47,13 @@ this.timers.create({
 
 this.cameras.getCamera(0).debug = true;
 
+const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
+this.stage.addChild(backroundImg);
+
 this.m_initPlayer();
 this.initHud();
 
-this.generateToy();
+//this.generateToy();
 
 };
 
@@ -69,15 +68,28 @@ this.generateToy();
 joller.scene.Game.prototype.update = function(step) {
     rune.scene.Scene.prototype.update.call(this, step);
 
-
 	if (this.placeToy){
 		this.placeToy.y += 3;
 	}
 
 
-	if (this.m_player.hitTestObject(this.placeToy)){
-	this.looseLife();
+	for (var i=0; i<this.selectedToyArray.length; i++){
+		if (this.selectedToyArray[i].y < 710){
+			if (this.m_player.hitTestObject(this.selectedToyArray[i])){
+				console.log(this.selectedToyArray[i].score);
+				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
+				this.selectedToyArray.splice(i,1);
+				this.looseLife();
+			}
+		} else {
+			this.stage.removeChild(this.selectedToyArray[i]);
+			this.selectedToyArray.splice(i,1);
+		}
 	}
+
+	//if (this.m_player.hitTestObject(this.placeToy)){
+	//this.looseLife();
+	//}
 
 
 	if (this.keyboard.pressed("right"))
@@ -90,6 +102,7 @@ joller.scene.Game.prototype.update = function(step) {
 	else if(this.keyboard.pressed("left")) {
 	this.m_player.x -= 5;
 	this.m_player.flippedX = true;
+	this.m_player.animations.gotoAndPlay("walk");
 			  }
 	else {
 	this.m_player.animations.gotoAndPlay("idle");	
@@ -116,7 +129,7 @@ joller.scene.Game.prototype.dispose = function() {
  */
 joller.scene.Game.prototype.initHud = function(){
 	this.hud = new joller.ui.Hud();
-		this.stage.addChild(this.hud);
+		this.cameras.getCamera(0).addChild(this.hud);
 };
 
 /**
@@ -164,13 +177,15 @@ joller.scene.Game.prototype.generateToy = function(){
 		var toys = [joller.entity.Horse, joller.entity.Kloss];
 		var toy = new toys[rune.util.Math.randomInt(0,1)]();
 		toy.x = rune.util.Math.random(0,1232);
+		this.selectedToyArray.push(toy);
 		this.stage.addChild(toy);
-		//console.log(toy.score);
 	};
 
 joller.scene.Game.prototype.looseLife = function(){
+	
 	this.text = new rune.text.BitmapField("You died!");
     this.text.autoSize = true;
     this.text.center = this.application.screen.center;
 	this.stage.addChild(this.text);
+	console.log("Du träffade en leksak");
 };
