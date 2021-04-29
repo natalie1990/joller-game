@@ -45,11 +45,7 @@ joller.scene.Menu.prototype.init = function() {
 	var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
     this.stage.addChild(backroundImg);
 
-    var logo = new rune.display.Graphic(300,280,800,200,"","logo");
-    logo.scaleX = 0.9;
-    logo.scaleY = 0.9;
-    logo.flicker(1500,200);
-    this.stage.addChild(logo);
+    this.viewLogo();
 
 };
 
@@ -68,4 +64,12 @@ joller.scene.Menu.prototype.update = function(step) {
  */
 joller.scene.Menu.prototype.dispose = function() {
     rune.scene.Scene.prototype.dispose.call(this);
+};
+
+joller.scene.Menu.prototype.viewLogo = function(){
+    var logo = new rune.display.Graphic(300,280,800,200,"","logo");
+    logo.scaleX = 0.9;
+    logo.scaleY = 0.9;
+    logo.flicker(1500,200);
+    this.stage.addChild(logo);
 };

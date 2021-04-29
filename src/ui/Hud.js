@@ -19,16 +19,17 @@
  *
  * ...
  */
- joller.ui.Hud = function() {
-    this.score = 0;
+ joller.ui.Hud = function(totalScore) {
+    this.score = totalScore;
     this.lives = 3;
+    this.pointsText = null;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
     /**
      *  Call super constructor scope.
      */
-     rune.display.DisplayObjectContainer.call(this, 0, 0, 1280, 100,"#000000");
+     rune.display.DisplayObjectContainer.call(this, 0, 0, 1280, 100,"");
     };
     
     //------------------------------------------------------------------------------
@@ -46,11 +47,30 @@
  */
 joller.ui.Hud.prototype.init = function() {
     rune.display.DisplayObjectContainer.prototype.init.call(this);
-    this.text = new rune.text.BitmapField("Joller!");
-    this.text.autoSize = true;
-    this.text.center = this.application.screen.center;
 
-    this.addChild(this.text);
+    var hudCont = new rune.display.DisplayObjectContainer(0,0,1280,100,"#FFFFFF");
+    hudCont.alpha = 0.2;
+    this.addChild(hudCont);
+
+    var logo = new rune.display.Graphic(100,30,750,200,"","logo");
+    logo.scaleX = 0.25;
+    logo.scaleY = 0.25;
+    this.addChild(logo);
+
+    this.pointsText = new rune.text.BitmapField("");
+
+    if (this.score == null) {
+        this.pointsText.text = "Score:\n0";
+    } else {
+        this.pointsText.text = "Score:\n" + this.score;
+    }
+    this.pointsText.autoSize = true;
+    this.pointsText.x = 500;
+    this.pointsText.y = 20;
+    this.pointsText.scaleX = 3;
+    this.pointsText.scaleY = 3;
+    this.addChild(this.pointsText);
+
 };
 
 /**
@@ -58,7 +78,6 @@ joller.ui.Hud.prototype.init = function() {
  */
 joller.ui.Hud.prototype.update = function(step) {
     rune.display.DisplayObjectContainer.prototype.update.call(this, step);
-
 
 };
 
@@ -68,5 +87,14 @@ joller.ui.Hud.prototype.update = function(step) {
 joller.ui.Hud.prototype.dispose = function() {
     rune.display.DisplayObjectContainer.prototype.dispose.call(this);
 
+};
 
+joller.ui.Hud.prototype.updateScore = function(newScore){
+    this.pointsText.text = "Score:\n" + this.newScore;
+    this.pointsText.autoSize = true;
+    this.pointsText.x = 500;
+    this.pointsText.y = 20;
+    this.pointsText.scaleX = 3;
+    this.pointsText.scaleY = 3;
+    this.addChild(this.pointsText);
 };

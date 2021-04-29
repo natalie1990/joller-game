@@ -6,11 +6,10 @@
  joller.scene.Game = function() {
 	
 	this.m_player = null; //Avatar - bebis
-	this.placeToy = null; //Objekt för fallande objekt/leksak
 	this.hud = null; //Objekt för HUD
-    this.toy = null;
-	this.selectedToyArray = [];
-
+	this.selectedToyArray = []; // Array med skapade leksaker
+	this.totalScore = null;
+	this.lives = null;
 
     /**
      * Supercall
@@ -25,7 +24,6 @@
  */
 joller.scene.Game.prototype = Object.create(rune.scene.Scene.prototype);
 joller.scene.Game.prototype.constructor = joller.scene.Game;
-
 
 /**
  * INIT
@@ -50,14 +48,11 @@ this.cameras.getCamera(0).debug = true;
 const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
+this.lives = 3;
+
 this.m_initPlayer();
 this.initHud();
-
-//this.generateToy();
-
 };
-
-
 
 
 /**
@@ -68,18 +63,17 @@ this.initHud();
 joller.scene.Game.prototype.update = function(step) {
     rune.scene.Scene.prototype.update.call(this, step);
 
-	if (this.placeToy){
-		this.placeToy.y += 3;
-	}
 
-
+/**
+ * Loop för att kontrollera kollision med leksak
+ */
 	for (var i=0; i<this.selectedToyArray.length; i++){
 		if (this.selectedToyArray[i].y < 710){
 			if (this.m_player.hitTestObject(this.selectedToyArray[i])){
-				console.log(this.selectedToyArray[i].score);
+				//console.log(this.selectedToyArray[i].score);
 				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
 				this.selectedToyArray.splice(i,1);
-				this.looseLife();
+				this.getPoints(this.selectedToyArray[i].score);
 			}
 		} else {
 			this.stage.removeChild(this.selectedToyArray[i]);
@@ -87,16 +81,13 @@ joller.scene.Game.prototype.update = function(step) {
 		}
 	}
 
-	//if (this.m_player.hitTestObject(this.placeToy)){
-	//this.looseLife();
-	//}
-
-
+/**
+ * Kontroller för styrning
+ */
 	if (this.keyboard.pressed("right"))
 	{
 	this.m_player.x += 5;
 	this.m_player.flippedX = false;
-	//x-värdet flyttas med 5
 	this.m_player.animations.gotoAndPlay("walk");
 	}
 	else if(this.keyboard.pressed("left")) {
@@ -116,27 +107,22 @@ joller.scene.Game.prototype.update = function(step) {
  */
 // Ta bort allt som init skapar, men vissa saker måste man aktivt peka på
 joller.scene.Game.prototype.dispose = function() {
-	
+    rune.scene.Scene.prototype.dispose.call(this);
 	this.m_player.dispose();
 	this.m_player = null;
-	
-    rune.scene.Scene.prototype.dispose.call(this);
 };
 
 /**
  * Initierar HUD
- * FRÅGA - Varför syns den ej?
  */
 joller.scene.Game.prototype.initHud = function(){
-	this.hud = new joller.ui.Hud();
+	this.hud = new joller.ui.Hud(this.totalScore);
 		this.cameras.getCamera(0).addChild(this.hud);
 };
 
 /**
- * prototype m_initPlayer
  * Skapar avataren - bebisen
  */
-
 joller.scene.Game.prototype.m_initPlayer = function(){
 	this.m_player = new rune.display.Sprite(
 	160,
@@ -156,23 +142,9 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	this.stage.addChild(this.m_player);
 };
 
-
-
-joller.scene.Game.prototype.generateToy = function(){
-		// Slumpar fram en x-koordinat
-			var randX = rune.util.Math.random(0, 1280);
-
-			//Slumpar fram leksak ur array
-			var toyArray = ["skallra","horse","kloss"];
-			var randName = toyArray[Math.floor(Math.random()*toyArray.length)];
-			var toyName = "toy_" + randName;
-		
-			//Skapar ett nytt FallingObj-objekt (leksak)
-			this.toy = new joller.entity.FallingObj(randX,toyName);
-			this.placeToy = this.toy.generateToySprite();
-			this.stage.addChild(this.placeToy);
-	};
-
+/**
+ * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
+ */
 	joller.scene.Game.prototype.addToy = function(){
 		var toys = [joller.entity.Horse, joller.entity.Kloss];
 		var toy = new toys[rune.util.Math.randomInt(0,1)]();
@@ -181,11 +153,11 @@ joller.scene.Game.prototype.generateToy = function(){
 		this.stage.addChild(toy);
 	};
 
-joller.scene.Game.prototype.looseLife = function(){
+/**
+ * Vid kollision med leksak erhålles poäng och HUD uppdateras
+ */
+joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
+	this.totalScore += scoreOfSelectedToy;
+	this.hud.updateScore(this.totalScore);
 	
-	this.text = new rune.text.BitmapField("You died!");
-    this.text.autoSize = true;
-    this.text.center = this.application.screen.center;
-	this.stage.addChild(this.text);
-	console.log("Du träffade en leksak");
 };
