@@ -112,7 +112,7 @@ joller.ui.Hud.prototype.updateScore = function(newScore){
 
 joller.ui.Hud.prototype.updateLives = function(newLives){
     this.removeChild(this.livesText);
-    this.livesText = new rune.text.BitmapField("Lives:\n" + this.newLives);
+    this.livesText = new rune.text.BitmapField("Lives:\n" + newLives);
     this.livesText.autoSize = true;
     this.livesText.x = 700;
     this.livesText.y = 20;

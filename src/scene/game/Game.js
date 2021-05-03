@@ -72,12 +72,13 @@ joller.scene.Game.prototype.update = function(step) {
 			if (this.m_player.hitTestObject(this.selectedToyArray[i])){
 				//console.log(this.selectedToyArray[i].score);
 				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
-				this.selectedToyArray.splice(i,1);
+				
 				if (this.selectedToyArray[i].looseOneLife == true){
 					this.looseLife();
 				} else {
 					this.getPoints(this.selectedToyArray[i].score);
 				}
+				this.selectedToyArray.splice(i,1); 
 			}
 		} else {
 			this.stage.removeChild(this.selectedToyArray[i]);
@@ -151,7 +152,7 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  */
 	joller.scene.Game.prototype.addToy = function(){
 		var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop, joller.entity.Duck];
-		var toy = new toys[rune.util.Math.randomInt(0,3)]();
+		var toy = new toys[rune.util.Math.randomInt(0,2)]();
 		toy.x = rune.util.Math.random(0,1232);
 		this.selectedToyArray.push(toy);
 		this.stage.addChild(toy);
@@ -167,6 +168,7 @@ joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 
 joller.scene.Game.prototype.looseLife = function(){
 	this.lives -= 1;
+	console.log(this.lives);
 	this.hud.updateLives(this.lives);
 	//console.log(this.lives);
 };
