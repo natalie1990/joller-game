@@ -37,13 +37,13 @@ var music = this.application.sounds.music.get("bgmusic");
 //music.play();
 
 this.timers.create({
-	duration: 3000,
+	duration: 2000,
 	onTick: this.addToy,
 	repeat: Infinity,
 	scope: this
 });
 
-this.cameras.getCamera(0).debug = true;
+//this.cameras.getCamera(0).debug = true;
 
 const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
@@ -73,7 +73,11 @@ joller.scene.Game.prototype.update = function(step) {
 				//console.log(this.selectedToyArray[i].score);
 				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
 				this.selectedToyArray.splice(i,1);
-				this.getPoints(this.selectedToyArray[i].score);
+				if (this.selectedToyArray[i].looseOneLife == true){
+					this.looseLife();
+				} else {
+					this.getPoints(this.selectedToyArray[i].score);
+				}
 			}
 		} else {
 			this.stage.removeChild(this.selectedToyArray[i]);
@@ -116,7 +120,7 @@ joller.scene.Game.prototype.dispose = function() {
  * Initierar HUD
  */
 joller.scene.Game.prototype.initHud = function(){
-	this.hud = new joller.ui.Hud(this.totalScore);
+	this.hud = new joller.ui.Hud(this.totalScore, this.lives);
 		this.cameras.getCamera(0).addChild(this.hud);
 };
 
@@ -130,7 +134,7 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	92,
 	60,
 	"",
-	"baby2"
+	"baby_sprite"
 	);
 
 	this.m_player.hitbox.set(5,5,60,50);
@@ -146,8 +150,8 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-		var toys = [joller.entity.Horse, joller.entity.Kloss];
-		var toy = new toys[rune.util.Math.randomInt(0,1)]();
+		var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop];
+		var toy = new toys[rune.util.Math.randomInt(0,2)]();
 		toy.x = rune.util.Math.random(0,1232);
 		this.selectedToyArray.push(toy);
 		this.stage.addChild(toy);
@@ -159,5 +163,10 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 	this.totalScore += scoreOfSelectedToy;
 	this.hud.updateScore(this.totalScore);
-	
+};
+
+joller.scene.Game.prototype.looseLife = function(){
+	this.lives -= 1;
+	this.hud.updateLives(this.lives);
+	//console.log(this.lives);
 };

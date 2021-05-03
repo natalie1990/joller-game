@@ -19,10 +19,11 @@
  *
  * ...
  */
- joller.ui.Hud = function(totalScore) {
+ joller.ui.Hud = function(totalScore,lives) {
     this.score = totalScore;
-    this.lives = 3;
+    this.lives = lives;
     this.pointsText = null;
+    this.livesText = null;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -71,6 +72,14 @@ joller.ui.Hud.prototype.init = function() {
     this.pointsText.scaleY = 3;
     this.addChild(this.pointsText);
 
+    this.livesText = new rune.text.BitmapField("Lives:\n" + this.lives);
+    this.livesText.autoSize = true;
+    this.livesText.x = 700;
+    this.livesText.y = 20;
+    this.livesText.scaleX = 3;
+    this.livesText.scaleY = 3;
+    this.addChild(this.livesText);
+
 };
 
 /**
@@ -99,4 +108,15 @@ joller.ui.Hud.prototype.updateScore = function(newScore){
     this.pointsText.scaleX = 3;
     this.pointsText.scaleY = 3;
     this.addChild(this.pointsText);
+};
+
+joller.ui.Hud.prototype.updateLives = function(newLives){
+    this.removeChild(this.livesText);
+    this.livesText = new rune.text.BitmapField("Lives:\n" + this.newLives);
+    this.livesText.autoSize = true;
+    this.livesText.x = 700;
+    this.livesText.y = 20;
+    this.livesText.scaleX = 3;
+    this.livesText.scaleY = 3;
+    this.addChild(this.livesText);
 };
