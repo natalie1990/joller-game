@@ -150,8 +150,8 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-		var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop];
-		var toy = new toys[rune.util.Math.randomInt(0,2)]();
+		var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop, joller.entity.Duck];
+		var toy = new toys[rune.util.Math.randomInt(0,3)]();
 		toy.x = rune.util.Math.random(0,1232);
 		this.selectedToyArray.push(toy);
 		this.stage.addChild(toy);
