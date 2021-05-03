@@ -37,7 +37,7 @@ var music = this.application.sounds.music.get("bgmusic");
 //music.play();
 
 this.timers.create({
-	duration: 2000,
+	duration: 1500,
 	onTick: this.addToy,
 	repeat: Infinity,
 	scope: this
@@ -48,7 +48,7 @@ this.timers.create({
 const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
-this.lives = 3;
+this.lives = 1;
 
 this.m_initPlayer();
 this.initHud();
@@ -89,6 +89,8 @@ joller.scene.Game.prototype.update = function(step) {
 /**
  * Kontroller för styrning
  */
+
+if (this.lives > 0) {
 	if (this.keyboard.pressed("right"))
 	{
 	this.m_player.x += 5;
@@ -103,8 +105,9 @@ joller.scene.Game.prototype.update = function(step) {
 	else {
 	this.m_player.animations.gotoAndPlay("idle");	
 	}
-};
+}
 
+};
 
 
 /**
@@ -139,11 +142,9 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	);
 
 	this.m_player.hitbox.set(5,5,60,50);
-
 	this.m_player.animations.add("idle", [0], 6, true);
 	this.m_player.animations.add("walk", [1,2,3,4,5], 8, true);
 	this.m_player.animations.gotoAndPlay("walk");
-	//finns även animations.stop
 	this.stage.addChild(this.m_player);
 };
 
@@ -151,11 +152,11 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-		var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop, joller.entity.Duck];
-		var toy = new toys[rune.util.Math.randomInt(0,2)]();
-		toy.x = rune.util.Math.random(0,1232);
-		this.selectedToyArray.push(toy);
-		this.stage.addChild(toy);
+			var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop, joller.entity.Duck, joller.entity.Star];
+			var toy = new toys[rune.util.Math.randomInt(0,4)](this.lives);
+			toy.x = rune.util.Math.random(0,1232);
+			this.selectedToyArray.push(toy);
+			this.stage.addChild(toy);
 	};
 
 /**
@@ -168,7 +169,19 @@ joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 
 joller.scene.Game.prototype.looseLife = function(){
 	this.lives -= 1;
+	if (this.lives == 0){
+		this.gameOver();
+	}
 	console.log(this.lives);
 	this.hud.updateLives(this.lives);
-	//console.log(this.lives);
+};
+
+joller.scene.Game.prototype.gameOver = function(){
+	//this.timers.dispose();
+	var gameOverText = new rune.text.BitmapField("Game Over!");
+	gameOverText.x = 500;
+	gameOverText.y = 300;
+	gameOverText.scaleX = 4;
+	gameOverText.scaleY = 4;
+	this.cameras.getCamera(0).addChild(gameOverText);
 };

@@ -6,7 +6,7 @@
  * Creates a new object.
  *
  * @constructor
- * @extends rune.display.Sprite
+ * @extends joller.entity.Thing
  *
  * @param {number} [x=0] ...
  * @param {number} [y=0] ...
@@ -20,22 +20,20 @@
  *
  * ...
  */
-joller.entity.Thing = function(texture) {
-    this.score = 0;
-
+ joller.entity.Star = function() {
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
     /**
      *  Call super constructor scope.
      */
-    rune.display.Sprite.call(this, 0, 0, 38, 38, "",texture);
+    joller.entity.Thing.call(this, "star_40x40");
 };
 //------------------------------------------------------------------------------
 //  Inheritance
 //------------------------------------------------------------------------------
-joller.entity.Thing.prototype = Object.create(rune.display.Sprite.prototype);
-joller.entity.Thing.prototype.constructor = joller.entity.Thing;
+joller.entity.Star.prototype = Object.create(joller.entity.Thing.prototype);
+joller.entity.Star.prototype.constructor = joller.entity.Star;
 //------------------------------------------------------------------------------
 // Override public prototype methods (ENGINE)
 //------------------------------------------------------------------------------
@@ -43,27 +41,22 @@ joller.entity.Thing.prototype.constructor = joller.entity.Thing;
 /**
  * @inheritDoc
  */
-joller.entity.Thing.prototype.init = function() {
-    rune.display.Sprite.prototype.init.call(this);
+joller.entity.Star.prototype.init = function() {
+    joller.entity.Thing.prototype.init.call(this);
+    this.score = 50;
+    this.blink = true;
 };
 
 /**
  * @inheritDoc
  */
-joller.entity.Thing.prototype.update = function(step) {
-    rune.display.Sprite.prototype.update.call(this, step);
-    
-    if (this.blink){
-        this.flicker(Infinity,800); // Hjälp med flicker-inställning
-    }
-
-        this.y += 3;
-
+joller.entity.Star.prototype.update = function(step) {
+    joller.entity.Thing.prototype.update.call(this, step);
 };
 
 /**
  * @inheritDoc
  */
-joller.entity.Thing.prototype.dispose = function() {
-    rune.display.Sprite.prototype.dispose.call(this);
+joller.entity.Star.prototype.dispose = function() {
+    joller.entity.Thing.prototype.dispose.call(this);
 };

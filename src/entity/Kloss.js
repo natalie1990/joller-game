@@ -43,7 +43,7 @@ joller.entity.Kloss.prototype.constructor = joller.entity.Kloss;
  */
 joller.entity.Kloss.prototype.init = function() {
     joller.entity.Thing.prototype.init.call(this);
-    this.score = 20;
+    this.score = 10;
     //@TODO: Write app code.
 };
 
