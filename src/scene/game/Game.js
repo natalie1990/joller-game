@@ -185,6 +185,19 @@ joller.scene.Game.prototype.looseLife = function(){
 joller.scene.Game.prototype.gameOver = function(){
 	var ranking = this.application.highscores.send(this.totalScore,"Monika");
 	console.log(ranking);
+	var gameOverScore = new rune.text.BitmapField("Total Score: " + this.totalScore);
+
+	if (ranking == -1){
+
+	}
+
+	if (ranking > -1){
+		var letterArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+		var letterOne = rune.text.BitmapField("A");
+		var letterTwo = rune.text.BitmapField("B");
+		var letterThree = rune.text.BitmapField("C");
+	}
+
 	this.createTimer.stop();
 	for (var i=0; i<this.selectedToyArray.length; i++){
 		this.selectedToyArray[i].active = false;
