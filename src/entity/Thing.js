@@ -45,6 +45,10 @@ joller.entity.Thing.prototype.constructor = joller.entity.Thing;
  */
 joller.entity.Thing.prototype.init = function() {
     rune.display.Sprite.prototype.init.call(this);
+
+    if (this.blink){
+        this.flicker(Infinity,175);
+    }
 };
 
 /**
@@ -52,10 +56,6 @@ joller.entity.Thing.prototype.init = function() {
  */
 joller.entity.Thing.prototype.update = function(step) {
     rune.display.Sprite.prototype.update.call(this, step);
-    
-    if (this.blink){
-        this.flicker(Infinity,800); // Hjälp med flicker-inställning
-    }
 
         this.y += 3;
 

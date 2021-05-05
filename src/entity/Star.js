@@ -21,6 +21,7 @@
  * ...
  */
  joller.entity.Star = function() {
+     this.blink = true;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ joller.entity.Star.prototype.constructor = joller.entity.Star;
 joller.entity.Star.prototype.init = function() {
     joller.entity.Thing.prototype.init.call(this);
     this.score = 50;
-    this.blink = true;
+    
 };
 
 /**

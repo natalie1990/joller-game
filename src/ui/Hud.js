@@ -24,6 +24,7 @@
     this.lives = lives;
     this.pointsText = null;
     this.livesText = null;
+    this.bathtub = null;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -53,9 +54,7 @@ joller.ui.Hud.prototype.init = function() {
     hudCont.alpha = 0.2;
     this.addChild(hudCont);
 
-    var logo = new rune.display.Graphic(100,30,750,200,"","logo");
-    logo.scaleX = 0.25;
-    logo.scaleY = 0.25;
+    var logo = new rune.display.Graphic(100,30,750,200,"","logo_small");
     this.addChild(logo);
 
     this.pointsText = new rune.text.BitmapField("");
@@ -74,12 +73,14 @@ joller.ui.Hud.prototype.init = function() {
 
     this.livesText = new rune.text.BitmapField("Lives:\n" + this.lives);
     this.livesText.autoSize = true;
-    this.livesText.x = 700;
+    this.livesText.x = 750;
     this.livesText.y = 20;
     this.livesText.scaleX = 3;
     this.livesText.scaleY = 3;
     this.addChild(this.livesText);
 
+    this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub3");
+    this.addChild(this.bathtub);
 };
 
 /**
@@ -112,6 +113,22 @@ joller.ui.Hud.prototype.updateScore = function(newScore){
 
 joller.ui.Hud.prototype.updateLives = function(newLives){
     this.removeChild(this.livesText);
+    this.removeChild(this.bathtub);
+
+    switch(newLives) {
+        case 2:
+            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub2");
+          break;
+        case 1:
+            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub1");
+            break;
+        case 0:
+            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub0");
+            break;
+        default:
+            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub3");
+      }
+    this.addChild(this.bathtub);
     this.livesText = new rune.text.BitmapField("Lives:\n" + newLives);
     this.livesText.autoSize = true;
     this.livesText.x = 700;
