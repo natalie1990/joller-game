@@ -122,25 +122,6 @@ if (this.lives > 0) {
 	
 	}
 }
-else {
-	if (this.keyboard.justPressed("up")){
-		this.selectedIndex--;
-		if (this.selectedIndex < 0) {
-			this.selectedIndex = this.letterArray.length - 1;
-		}
-		console.log("Vald bokstav är " + this.letterArray[this.selectedIndex]);
-	} else if (this.keyboard.justPressed("down")) {
-		this.selectedIndex++;
-		if (this.selectedIndex >= this.letterArray.length){
-			this.selectedIndex = 0;
-		}
-		console.log("Vald bokstav är " + this.letterArray[this.selectedIndex]);
-	}
-	if (this.keyboard.justPressed("space")){
-		this.letterOne.text = this.letterArray[this.selectedIndex];
-	}
-}
-
 };
 
 

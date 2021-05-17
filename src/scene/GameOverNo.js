@@ -104,7 +104,7 @@ joller.scene.GameOverNo.prototype.initGameOverBox = function(){
 		"baby_gameOver_sprite"
 		);
 	
-		this.cryBaby.animations.add("idle", [0,1,2], 6, true);
+		this.cryBaby.animations.add("idle", [0,1,2,3], 6, true);
 		this.cryBaby.animations.gotoAndPlay("idle");
 		this.stage.addChild(this.cryBaby);
 };
