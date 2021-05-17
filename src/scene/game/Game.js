@@ -11,6 +11,13 @@
 	this.totalScore = null;
 	this.lives = null;
 	this.createTimer = null;
+	this.selectedIndex = 0;
+	this.letterArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+	this.letterOne = null;
+	this.letterTwo = null;
+	this.letterThree = null;
+	this.music = null;
+	this.point = new joller.ui.Point();
 
     /**
      * Supercall
@@ -33,9 +40,9 @@ joller.scene.Game.prototype.constructor = joller.scene.Game;
 joller.scene.Game.prototype.init = function() {
 	rune.scene.Scene.prototype.init.call(this);
 
-this.application.sounds.music.volume = 0.5;
-var music = this.application.sounds.music.get("bgmusic");
-//music.play();
+this.application.sounds.music.volume = 0.1;
+this.music = this.application.sounds.music.get("bgmusic");
+//this.music.play();
 
 this.createTimer = this.timers.create({
 	duration: 1500,
@@ -49,10 +56,12 @@ this.createTimer = this.timers.create({
 const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
-this.lives = 3;
+this.lives = 1;
 
 this.m_initPlayer();
 this.initHud();
+
+this.application.highscores.clear();
 };
 
 
@@ -96,7 +105,12 @@ if (this.lives > 0) {
 	{
 	this.m_player.x += 5;
 	this.m_player.flippedX = false;
-	this.m_player.animations.gotoAndPlay("walk");
+	if (this.umbrella){
+		this.m_player.animations.gotoAndPlay("walk_umbrella");
+	} else {
+		this.m_player.animations.gotoAndPlay("walk");
+	}
+
 	}
 	else if(this.keyboard.pressed("left")) {
 	this.m_player.x -= 5;
@@ -104,7 +118,26 @@ if (this.lives > 0) {
 	this.m_player.animations.gotoAndPlay("walk");
 			  }
 	else {
-	this.m_player.animations.gotoAndPlay("idle");	
+	this.m_player.animations.gotoAndPlay("idle");
+	
+	}
+}
+else {
+	if (this.keyboard.justPressed("up")){
+		this.selectedIndex--;
+		if (this.selectedIndex < 0) {
+			this.selectedIndex = this.letterArray.length - 1;
+		}
+		console.log("Vald bokstav är " + this.letterArray[this.selectedIndex]);
+	} else if (this.keyboard.justPressed("down")) {
+		this.selectedIndex++;
+		if (this.selectedIndex >= this.letterArray.length){
+			this.selectedIndex = 0;
+		}
+		console.log("Vald bokstav är " + this.letterArray[this.selectedIndex]);
+	}
+	if (this.keyboard.justPressed("space")){
+		this.letterOne.text = this.letterArray[this.selectedIndex];
 	}
 }
 
@@ -149,30 +182,41 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	this.stage.addChild(this.m_player);
 };
 
+
+
 /**
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-			var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car];
-			var toy = new toys[rune.util.Math.randomInt(0,6)]();
+			var chance = [0,0,1,1,2,2,2,2,3,3,4,5,5,6,6,7];
+			var i = chance[Math.floor(Math.random()*chance.length)];
+			var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella];
+			var toy = new toys[i]();
 			toy.x = rune.util.Math.random(0,1232);
 			this.selectedToyArray.push(toy);
 			this.stage.addChild(toy);
+
 	};
 
 /**
  * Vid kollision med leksak erhålles poäng och HUD uppdateras
  */
 joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
-	this.application.sounds.music.volume = 0.3;
+	this.application.sounds.music.volume = 0.1;
 	var laughSound = this.application.sounds.music.get("sound_skratt");
 	laughSound.play();
 	this.totalScore += scoreOfSelectedToy;
 	this.hud.updateScore(this.totalScore);
+
+	this.point.autoSize = true;
+	this.point.text = "+" + scoreOfSelectedToy;
+	this.point.centerX = this.m_player.centerX;
+	this.point.bottom = this.m_player.top;
+	this.stage.addChild(this.point);
 };
 
 joller.scene.Game.prototype.looseLife = function(){
-	this.application.sounds.music.volume = 0.3;
+	this.application.sounds.music.volume = 0.1;
 	var crySound = this.application.sounds.music.get("sound_cry");
 	crySound.play();
 	this.lives -= 1;
@@ -182,39 +226,22 @@ joller.scene.Game.prototype.looseLife = function(){
 	this.hud.updateLives(this.lives);
 };
 
+
 joller.scene.Game.prototype.gameOver = function(){
 	var ranking = this.application.highscores.send(this.totalScore,"Monika");
-	console.log(ranking);
-	var gameOverScore = new rune.text.BitmapField("Total Score: " + this.totalScore);
+	this.music.stop();
 
-	if (ranking == -1){
-
-	}
-
-	if (ranking > -1){
-		var letterArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-		var letterOne = rune.text.BitmapField("A");
-		var letterTwo = rune.text.BitmapField("B");
-		var letterThree = rune.text.BitmapField("C");
-	}
-
+	// Stoppar timern och inaktiverar leksakerna
 	this.createTimer.stop();
 	for (var i=0; i<this.selectedToyArray.length; i++){
 		this.selectedToyArray[i].active = false;
 	}
 
-	var gameOverMenu = new rune.display.DisplayObjectContainer(300,200,600,200,"#FFFFFF");
-	gameOverMenu.alpha = 0.6;
+	// Laddar in olika scener beroende på om spelaren slagit hi-score
+	if (ranking == -1){
+		this.application.scenes.load([new joller.scene.GameOverNo(this.totalScore)]);
+	} else {
+		this.application.scenes.load([new joller.scene.GameOverYes(this.totalScore)]);
+	}
 
-	var gameOverText = new rune.text.BitmapField("Game Over!");
-	gameOverText.x = 500;
-	gameOverText.y = 250;
-	gameOverText.scaleX = 4;
-	gameOverText.scaleY = 4;
-
-	var gameOverBath = new rune.display.Graphic(550,320,200,60,"","tub0");
-
-	this.cameras.getCamera(0).addChild(gameOverMenu);
-	this.cameras.getCamera(0).addChild(gameOverText);
-	this.cameras.getCamera(0).addChild(gameOverBath);
 };

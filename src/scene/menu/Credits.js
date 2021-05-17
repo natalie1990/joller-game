@@ -47,14 +47,38 @@ joller.scene.Credits.prototype.init = function() {
 
     this.viewLogo();
 
-    var nameText = new rune.text.BitmapField("");
-    nameText.text = "Created by:\n" + "Natalie & Monika\n" + "Interaktiva medier och webbteknologier VT-21";
-    nameText.x = 250;
-    nameText.y = 400;
-    nameText.autoSize = true;
-    nameText.scaleX = 3.5;
-    nameText.scaleY = 3.5;
-    this.stage.addChild(nameText);
+    var creditsHeader = new rune.display.Graphic(505,260,400,200,"","credits");
+    this.stage.addChild(creditsHeader);
+
+    var natText = new rune.text.BitmapField("Natalie Silva-Kihlen");
+    natText.autoSize = true;
+    natText.x = 420;
+    natText.y = 350;
+    natText.scaleX = 3.5;
+    natText.scaleY = 3.5;
+    this.stage.addChild(natText);
+
+    var monText = new rune.text.BitmapField("Monika Carmvall");
+    monText.autoSize = true;
+    monText.x = 460;
+    monText.y = 410;
+    monText.scaleX = 3.5;
+    monText.scaleY = 3.5;
+    this.stage.addChild(monText);
+
+    var proText = new rune.text.BitmapField("IMWT VT-21");
+    proText.autoSize = true;
+    proText.x = 510;
+    proText.y = 475;
+    proText.scaleX = 3.5;
+    proText.scaleY = 3.5;
+    this.stage.addChild(proText);
+
+    var arrow = new rune.display.Graphic(525,550,80,30,"","arrow");
+    this.stage.addChild(arrow);
+
+	var backBtn = new rune.display.Graphic(565,545,180,60,"","back");
+    this.stage.addChild(backBtn);
 
 };
 
@@ -77,7 +101,7 @@ joller.scene.Credits.prototype.dispose = function() {
 };
 
 joller.scene.Credits.prototype.viewLogo = function(){
-    var logo = new rune.display.Graphic(400,180,750,200,"","logo");
+    var logo = new rune.display.Graphic(400,100,750,200,"","logo");
     logo.scaleX = 0.6;
     logo.scaleY = 0.6;
     this.stage.addChild(logo);

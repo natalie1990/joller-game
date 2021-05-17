@@ -47,13 +47,7 @@ joller.scene.Hiscore.prototype.init = function() {
 
     this.viewLogo();
 
-    var hiscoreHeader = new rune.text.BitmapField("");
-    hiscoreHeader.text = "HI-SCORE";
-    hiscoreHeader.x = 550;
-    hiscoreHeader.y = 250;
-    hiscoreHeader.autoSize = true;
-    hiscoreHeader.scaleX = 3.5;
-    hiscoreHeader.scaleY = 3.5;
+    var hiscoreHeader = new rune.display.Graphic(505,260,400,170,"","hiscore");
     this.stage.addChild(hiscoreHeader);
 
     var hiscoreArray = [];
@@ -70,14 +64,14 @@ joller.scene.Hiscore.prototype.init = function() {
 
     var listText = new rune.text.BitmapField("");
     var rowText = "";
-    //Lägg in datum här sen med
+    //Lägg in datum här sen med?
     for (var i=0; i<hiscoreArray.length; i++){
         rowText += ": " + hiscoreArray[i].name + "  " + hiscoreArray[i].score + "\n";
     }
 
     var numText = new rune.text.BitmapField("1\n2\n3\n4\n5");
     numText.autoSize = true;
-    numText.x = 500;
+    numText.x = 525;
     numText.y = 350;
     numText.scaleX = 3;
     numText.scaleY = 3;
@@ -85,11 +79,17 @@ joller.scene.Hiscore.prototype.init = function() {
 
     listText.text = rowText;
     listText.autoSize = true;
-    listText.x = 522;
+    listText.x = 552;
     listText.y = 350;
     listText.scaleX = 3;
     listText.scaleY = 3;
     this.stage.addChild(listText);
+
+    var arrow = new rune.display.Graphic(538,550,80,30,"","arrow");
+    this.stage.addChild(arrow);
+
+	var backBtn = new rune.display.Graphic(578,545,180,60,"","back");
+    this.stage.addChild(backBtn);
 };
 
 /**
