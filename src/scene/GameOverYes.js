@@ -119,7 +119,7 @@ joller.scene.GameOverYes.prototype.initHud = function(){
 
 
 joller.scene.GameOverYes.prototype.GameOver = function(){
-	var ranking = this.application.highscores.send(this.totalScore,"Monika");
+	var ranking = this.application.highscores.test(this.totalScore);
 	console.log(ranking);
 	var GameOverYesOverScore = new rune.text.BitmapField("Total Score: " + this.totalScore);
 
@@ -158,10 +158,10 @@ joller.scene.GameOverYes.prototype.GameOver = function(){
 		660,
 		420,
 		"",
-		"baby_gameOver_sprite"
+		"joller_go_baby"
 		);
 	
-		this.cryBaby.animations.add("idle", [0,1,2], 6, true);
+		this.cryBaby.animations.add("idle", [0,1,2,3], 6, true);
 		this.cryBaby.animations.gotoAndPlay("idle");
 		this.stage.addChild(this.cryBaby);
 

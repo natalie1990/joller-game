@@ -21,7 +21,7 @@
  * ...
  */
  joller.entity.Umbrella = function() {
-     this.powerUp = true;
+    this.powerUp = true;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -53,6 +53,7 @@ joller.entity.Umbrella.prototype.init = function() {
  */
 joller.entity.Umbrella.prototype.update = function(step) {
     joller.entity.Thing.prototype.update.call(this, step);
+    this.rotation += 10;
 };
 
 /**

@@ -57,29 +57,25 @@ joller.ui.Hud.prototype.init = function() {
     var logo = new rune.display.Graphic(100,30,750,200,"","logo_small");
     this.addChild(logo);
 
-    this.pointsText = new rune.text.BitmapField("");
+    this.pointsText = new rune.text.BitmapField("","font_1");
 
     if (this.score == null) {
-        this.pointsText.text = "Score:\n0";
+        this.pointsText.text = "Score\n  0";
     } else {
-        this.pointsText.text = "Score:\n" + this.score;
+        this.pointsText.text = "Score\n  " + this.score;
     }
     this.pointsText.autoSize = true;
     this.pointsText.x = 500;
     this.pointsText.y = 20;
-    this.pointsText.scaleX = 3;
-    this.pointsText.scaleY = 3;
     this.addChild(this.pointsText);
 
-    this.livesText = new rune.text.BitmapField("Lives:\n" + this.lives);
+    this.livesText = new rune.text.BitmapField("Lives\n  " + this.lives,"font_1");
     this.livesText.autoSize = true;
     this.livesText.x = 750;
     this.livesText.y = 20;
-    this.livesText.scaleX = 3;
-    this.livesText.scaleY = 3;
     this.addChild(this.livesText);
 
-    this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub3");
+    this.bathtub = new rune.display.Graphic(920,30,170,60,"","tub3");
     this.addChild(this.bathtub);
 };
 
@@ -101,13 +97,11 @@ joller.ui.Hud.prototype.dispose = function() {
 
 joller.ui.Hud.prototype.updateScore = function(newScore){
     this.removeChild(this.pointsText);
-    this.pointsText = new rune.text.BitmapField("");
-    this.pointsText.text = "Score:\n" + newScore;
+    this.pointsText = new rune.text.BitmapField("","font_1");
+    this.pointsText.text = "Score\n  " + newScore;
     this.pointsText.autoSize = true;
     this.pointsText.x = 500;
     this.pointsText.y = 20;
-    this.pointsText.scaleX = 3;
-    this.pointsText.scaleY = 3;
     this.addChild(this.pointsText);
 };
 
@@ -129,11 +123,9 @@ joller.ui.Hud.prototype.updateLives = function(newLives){
             this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub3");
       }
     this.addChild(this.bathtub);
-    this.livesText = new rune.text.BitmapField("Lives:\n" + newLives);
+    this.livesText = new rune.text.BitmapField("Lives\n  " + newLives);
     this.livesText.autoSize = true;
     this.livesText.x = 700;
     this.livesText.y = 20;
-    this.livesText.scaleX = 3;
-    this.livesText.scaleY = 3;
     this.addChild(this.livesText);
 };

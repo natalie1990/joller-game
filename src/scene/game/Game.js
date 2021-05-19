@@ -11,13 +11,9 @@
 	this.totalScore = null;
 	this.lives = null;
 	this.createTimer = null;
-	this.selectedIndex = 0;
-	this.letterArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-	this.letterOne = null;
-	this.letterTwo = null;
-	this.letterThree = null;
 	this.music = null;
 	this.point = new joller.ui.Point();
+	this.powerUpMode = false;
 
     /**
      * Supercall
@@ -80,7 +76,16 @@ joller.scene.Game.prototype.update = function(step) {
 	for (var i=0; i<this.selectedToyArray.length; i++){
 		if (this.selectedToyArray[i].y < 710){
 			if (this.m_player.hitTestObject(this.selectedToyArray[i])){
-				//console.log(this.selectedToyArray[i].score);
+				
+				if (this.selectedToyArray[i].powerUp == true){
+					this.powerUpMode = true;
+					this.powerUpTimer = this.timers.create({
+						duration: 10000,
+						onComplete: this.umbrellaPower,
+						scope: this
+					});
+				}
+				
 				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
 				
 				if (this.selectedToyArray[i].looseOneLife == true){
@@ -101,12 +106,11 @@ joller.scene.Game.prototype.update = function(step) {
  */
 
 if (this.lives > 0) {
-	if (this.keyboard.pressed("right"))
-	{
+	if (this.keyboard.pressed("right")){
 	this.m_player.x += 5;
 	this.m_player.flippedX = false;
-	if (this.umbrella){
-		this.m_player.animations.gotoAndPlay("walk_umbrella");
+	if (this.powerUpMode){
+		this.m_player.animations.gotoAndPlay("walk_u");
 	} else {
 		this.m_player.animations.gotoAndPlay("walk");
 	}
@@ -115,13 +119,29 @@ if (this.lives > 0) {
 	else if(this.keyboard.pressed("left")) {
 	this.m_player.x -= 5;
 	this.m_player.flippedX = true;
-	this.m_player.animations.gotoAndPlay("walk");
+	if (this.powerUpMode){
+		this.m_player.animations.gotoAndPlay("walk_u");
+	} else {
+		this.m_player.animations.gotoAndPlay("walk");
+	}
 			  }
 	else {
-	this.m_player.animations.gotoAndPlay("idle");
-	
+		if (this.powerUpMode){
+			this.m_player.animations.gotoAndPlay("idle_u");
+		} else {
+			this.m_player.animations.gotoAndPlay("idle");
+		}
 	}
 }
+//else {
+//	if (this.powerUpMode){
+//		this.m_player.animations.gotoAndPlay("idle_u");
+//	}
+//	else {
+//		this.m_player.animations.gotoAndPlay("idle");
+//	}
+//}
+
 };
 
 
@@ -150,8 +170,8 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	this.m_player = new rune.display.Sprite(
 	160,
 	600,
-	92,
-	60,
+	90,
+	70,
 	"",
 	"baby_sprite"
 	);
@@ -160,6 +180,8 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	this.m_player.animations.add("idle", [0], 6, true);
 	this.m_player.animations.add("walk", [1,2,3,4,5], 8, true);
 	this.m_player.animations.gotoAndPlay("walk");
+	this.m_player.animations.add("idle_u", [6], 6, true);
+	this.m_player.animations.add("walk_u", [7,8,9,10,11], 8, true);
 	this.stage.addChild(this.m_player);
 };
 
@@ -169,9 +191,9 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-			var chance = [0,0,1,1,2,2,2,2,3,3,4,5,5,6,6,7];
+			var chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6];
 			var i = chance[Math.floor(Math.random()*chance.length)];
-			var toys = [joller.entity.Horse, joller.entity.Kloss, joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella];
+			var toys = [joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella, joller.entity.Rattle];
 			var toy = new toys[i]();
 			toy.x = rune.util.Math.random(0,1232);
 			this.selectedToyArray.push(toy);
@@ -197,14 +219,18 @@ joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 };
 
 joller.scene.Game.prototype.looseLife = function(){
-	this.application.sounds.music.volume = 0.1;
-	var crySound = this.application.sounds.music.get("sound_cry");
-	crySound.play();
-	this.lives -= 1;
-	if (this.lives == 0){
-		this.gameOver();
+	if (this.powerUpMode){
+		console.log("You didn't loose a life");
+	} else {
+		this.application.sounds.music.volume = 0.1;
+		var crySound = this.application.sounds.music.get("sound_cry");
+		crySound.play();
+		this.lives -= 1;
+		if (this.lives == 0){
+			this.gameOver();
+		}
+		this.hud.updateLives(this.lives);
 	}
-	this.hud.updateLives(this.lives);
 };
 
 
@@ -224,5 +250,8 @@ joller.scene.Game.prototype.gameOver = function(){
 	} else {
 		this.application.scenes.load([new joller.scene.GameOverYes(this.totalScore)]);
 	}
+};
 
+joller.scene.Game.prototype.umbrellaPower = function(){
+	this.powerUpMode = false;
 };
