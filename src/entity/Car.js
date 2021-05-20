@@ -44,6 +44,7 @@ joller.entity.Car.prototype.constructor = joller.entity.Car;
 joller.entity.Car.prototype.init = function() {
     joller.entity.Thing.prototype.init.call(this);
     this.score = 10;
+    this.isNormalToy = true;
     //@TODO: Write app code.
 };
 

@@ -6,7 +6,7 @@
  * Creates a new object.
  *
  * @constructor
- * @extends rune.text.BitmapField
+ * @extends rune.display.Graphic
  *
  * @param {number} [x=0] ...
  * @param {number} [y=0] ...
@@ -20,7 +20,7 @@
  *
  * ...
  */
- joller.ui.Point = function() {
+ joller.ui.Bubble = function() {
      this.tweens = null;
     //--------------------------------------------------------------------------
     //  Constructor call
@@ -28,13 +28,13 @@
     /**
      *  Call super constructor scope.
      */
-    rune.text.BitmapField.call(this, "test","font_1");
+    rune.display.Graphic.call(this, 300,300,50,50,"","bubble");
 };
 //------------------------------------------------------------------------------
 //  Inheritance
 //------------------------------------------------------------------------------
-joller.ui.Point.prototype = Object.create(rune.text.BitmapField.prototype);
-joller.ui.Point.prototype.constructor = joller.ui.Point;
+joller.ui.Bubble.prototype = Object.create(rune.display.Graphic.prototype);
+joller.ui.Bubble.prototype.constructor = joller.ui.Bubble;
 //------------------------------------------------------------------------------
 // Override public prototype methods (ENGINE)
 //------------------------------------------------------------------------------
@@ -42,10 +42,8 @@ joller.ui.Point.prototype.constructor = joller.ui.Point;
 /**
  * @inheritDoc
  */
-joller.ui.Point.prototype.init = function() {
-    rune.text.BitmapField.prototype.init.call(this);
-
-    this.alpha = 1.0;
+joller.ui.Bubble.prototype.init = function() {
+    rune.display.Graphic.prototype.init.call(this);
 
     this.tweens = new rune.tween.Tweens();
     this.tweens.add(this,{
@@ -60,8 +58,8 @@ joller.ui.Point.prototype.init = function() {
 /**
  * @inheritDoc
  */
-joller.ui.Point.prototype.update = function(step) {
-    rune.text.BitmapField.prototype.update.call(this, step);
+joller.ui.Bubble.prototype.update = function(step) {
+    rune.display.Graphic.prototype.update.call(this, step);
 
     this.tweens.update(step);
 
@@ -71,8 +69,8 @@ joller.ui.Point.prototype.update = function(step) {
 /**
  * @inheritDoc
  */
-joller.ui.Point.prototype.dispose = function() {
-    rune.text.BitmapField.prototype.dispose.call(this);
+joller.ui.Bubble.prototype.dispose = function() {
+    rune.display.Graphic.prototype.dispose.call(this);
     //@TODO: Write app code.
 
 };

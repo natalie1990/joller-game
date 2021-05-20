@@ -44,6 +44,7 @@ joller.entity.Rattle.prototype.constructor = joller.entity.Rattle;
 joller.entity.Rattle.prototype.init = function() {
     joller.entity.Thing.prototype.init.call(this);
     this.score = 10;
+    this.isNormalToy = true;
     //@TODO: Write app code.
 };
 

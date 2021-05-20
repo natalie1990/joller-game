@@ -13,6 +13,7 @@
 	this.createTimer = null;
 	this.music = null;
 	this.point = new joller.ui.Point();
+	this.bubble = new joller.ui.Bubble();
 	this.powerUpMode = false;
 
     /**
@@ -38,7 +39,7 @@ joller.scene.Game.prototype.init = function() {
 
 this.application.sounds.music.volume = 0.1;
 this.music = this.application.sounds.music.get("bgmusic");
-//this.music.play();
+this.music.play();
 
 this.createTimer = this.timers.create({
 	duration: 1500,
@@ -52,12 +53,11 @@ this.createTimer = this.timers.create({
 const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
-this.lives = 1;
+this.lives = 3;
 
 this.m_initPlayer();
 this.initHud();
 
-this.application.highscores.clear();
 };
 
 
@@ -74,7 +74,7 @@ joller.scene.Game.prototype.update = function(step) {
  * Loop för att kontrollera kollision med leksak
  */
 	for (var i=0; i<this.selectedToyArray.length; i++){
-		if (this.selectedToyArray[i].y < 710){
+		if (this.selectedToyArray[i].y < 640){
 			if (this.m_player.hitTestObject(this.selectedToyArray[i])){
 				
 				if (this.selectedToyArray[i].powerUp == true){
@@ -89,13 +89,16 @@ joller.scene.Game.prototype.update = function(step) {
 				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
 				
 				if (this.selectedToyArray[i].looseOneLife == true){
-					this.looseLife();
+					this.looseLife(this.selectedToyArray[i],"drop");
 				} else {
 					this.getPoints(this.selectedToyArray[i].score);
 				}
 				this.selectedToyArray.splice(i,1); 
 			}
-		} else {
+		} else { //Om leksaken är skilt från droppe
+			if (this.selectedToyArray[i].isNormalToy){
+				this.looseLife(this.selectedToyArray[i],"toy");
+			}
 			this.stage.removeChild(this.selectedToyArray[i]);
 			this.selectedToyArray.splice(i,1);
 		}
@@ -133,6 +136,14 @@ if (this.lives > 0) {
 		}
 	}
 }
+
+/**
+ * Tömmer hi-score för testning
+ */
+if (this.keyboard.pressed("p")){
+	this.application.highscores.clear();
+}
+
 //else {
 //	if (this.powerUpMode){
 //		this.m_player.animations.gotoAndPlay("idle_u");
@@ -218,10 +229,20 @@ joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 	this.stage.addChild(this.point);
 };
 
-joller.scene.Game.prototype.looseLife = function(){
-	if (this.powerUpMode){
-		console.log("You didn't loose a life");
-	} else {
+joller.scene.Game.prototype.looseLife = function(obj,flag){
+
+	this.m_player.flicker();
+
+	if (flag == "toy"){
+		//this.bubble.autoSize = true;
+		//this.bubble.text = "-Life";
+		this.bubble.centerX = obj.centerX;
+		this.bubble.bottom = obj.top;
+		this.stage.addChild(this.bubble);
+	}
+
+
+	if (this.powerUpMode == false){
 		this.application.sounds.music.volume = 0.1;
 		var crySound = this.application.sounds.music.get("sound_cry");
 		crySound.play();
@@ -235,7 +256,7 @@ joller.scene.Game.prototype.looseLife = function(){
 
 
 joller.scene.Game.prototype.gameOver = function(){
-	var ranking = this.application.highscores.send(this.totalScore,"Monika");
+	var ranking = this.application.highscores.test(this.totalScore);
 	this.music.stop();
 
 	// Stoppar timern och inaktiverar leksakerna
@@ -246,7 +267,7 @@ joller.scene.Game.prototype.gameOver = function(){
 
 	// Laddar in olika scener beroende på om spelaren slagit hi-score
 	if (ranking == -1){
-		this.application.scenes.load([new joller.scene.GameOverNo(this.totalScore)]);
+		this.application.scenes.load([new joller.scene.GameOverMenu(this.totalScore)]);
 	} else {
 		this.application.scenes.load([new joller.scene.GameOverYes(this.totalScore)]);
 	}

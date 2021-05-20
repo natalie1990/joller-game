@@ -12,6 +12,8 @@
 	this.letterOne = null;
 	this.letterTwo = null;
 	this.letterThree = null;
+	this.okLet = null;
+	this.arrow = null;
 	this.totalScore = totalScore;
 	this.cryBaby = null;
 
@@ -43,7 +45,7 @@ this.stage.addChild(backroundImg);
 
 this.lives = 0;
 
-this.initHud();
+this.initHud(this.totalScore);
 
 this.GameOver();
 
@@ -79,7 +81,14 @@ joller.scene.GameOverYes.prototype.update = function(step) {
 		if (this.letterIndex >= this.letters.length) {
 			this.letterIndex = 0;
 		}
-		this.letters[this.letterIndex].flicker();
+		if (this.letters[this.letterIndex].id != "ok"){
+			this.letters[this.letterIndex].flicker();
+		}
+		if (this.letters[this.letterIndex].id == "ok"){
+			this.arrow.visible = true;
+		} else {
+			this.arrow.visible = false;
+		}
 	}
 
 	if (this.keyboard.justPressed("left")){
@@ -87,13 +96,20 @@ joller.scene.GameOverYes.prototype.update = function(step) {
 		if (this.letterIndex <= -1) {
 			this.letterIndex = this.letters.length - 1;
 		}
+		if (this.letters[this.letterIndex].id != "ok"){
 		this.letters[this.letterIndex].flicker();
+		}
+		if (this.letters[this.letterIndex].id == "ok"){
+			this.arrow.visible = true;
+		} else {
+			this.arrow.visible = false;
+		}
 	}
 
-	if (this.keyboard.justPressed("space")){
+	if (this.keyboard.justPressed("space") && this.letters[this.letterIndex].id == "ok"){
 		var name = this.letterOne.text + "" + this.letterTwo.text + "" + this.letterThree.text;
 		this.application.highscores.send(this.totalScore,name);
-		//this.letterOne.text = this.letterArray[this.selectedIndex];
+		this.application.scenes.load([new joller.scene.GameOverMenu(this.totalScore)]);
 	}
 
 };
@@ -117,52 +133,87 @@ joller.scene.GameOverYes.prototype.initHud = function(){
 
 
 
-
 joller.scene.GameOverYes.prototype.GameOver = function(){
 	var ranking = this.application.highscores.test(this.totalScore);
 	console.log(ranking);
 	var GameOverYesOverScore = new rune.text.BitmapField("Total Score: " + this.totalScore);
-
-		var gameOverBox = new rune.display.DisplayObjectContainer(300,200,600,400,"#FFFFFF");
-		gameOverBox.alpha = 0.6;
-		//this.cameras.getCamera(0).addChild(gameOverBox);
-		
-		this.letterOne = new rune.text.BitmapField("A");
-		this.letters.push(this.letterOne);
-		this.letterTwo = new rune.text.BitmapField("B");
-		this.letters.push(this.letterTwo);
-		this.letterThree = new rune.text.BitmapField("C");
-		this.letters.push(this.letterThree);
-
-
-		this.letterOne.x = 450;
-		this.letterTwo.x = 500;
-		this.letterOne.scaleX = 4;
-		this.letterOne.scaleY = 4;
-		this.letterTwo.scaleX = 4;
-		this.letterTwo.scaleY = 4;
-		this.letterThree.scaleX = 4;
-		this.letterThree.scaleY = 4;
-		this.letterThree.x = 550;
-		this.letterOne.y = 300;
-		this.letterTwo.y = 300;
-		this.letterThree.y = 300;
-		this.cameras.getCamera(0).addChild(this.letterOne);
-		this.cameras.getCamera(0).addChild(this.letterTwo);
-		this.cameras.getCamera(0).addChild(this.letterThree);
-
-
+	
+/**
+ * Sprite for Game Over-image
+ */
 	this.cryBaby = new rune.display.Sprite(
 		310,
-		150,
+		90,
 		660,
 		420,
 		"",
-		"joller_go_baby"
+		"baby_gameover"
 		);
 	
 		this.cryBaby.animations.add("idle", [0,1,2,3], 6, true);
 		this.cryBaby.animations.gotoAndPlay("idle");
 		this.stage.addChild(this.cryBaby);
+
+/**
+ * Instructions to the player (later replace with image)
+ */
+ var newHi = new rune.display.Graphic(475,470,350,110,"","hi");
+ newHi.scaleX = 0.95;
+ newHi.scaleY = 0.95;
+this.stage.addChild(newHi);
+
+var enter = new rune.text.BitmapField("Enter your name","new");
+enter.autoSize = true;
+enter.scaleX = 0.25;
+enter.scaleY = 0.25;
+enter.x = 445;
+enter.y = 540;
+this.stage.addChild(enter);
+
+
+	
+/**
+ * The letters for typing the player's name
+ */
+		this.letterOne = new rune.text.BitmapField("A","new");
+		this.letters.push(this.letterOne);
+		this.letterTwo = new rune.text.BitmapField("B","new");
+		this.letters.push(this.letterTwo);
+		this.letterThree = new rune.text.BitmapField("C","new");
+		this.letters.push(this.letterThree);
+		this.okLet = new rune.display.Graphic(710,600,75,50,"","ok");
+		this.letters.push(this.okLet);
+		this.okLet.scaleX = 0.75;
+		this.okLet.scaleY = 0.75;
+		this.okLet.id = "ok";
+		this.letterOne.autoSize = true;
+		this.letterTwo.autoSize = true;
+		this.letterThree.autoSize = true;
+		this.letterOne.x = 510;
+		this.letterTwo.x = 560;
+		this.letterThree.x = 610;
+		this.letterOne.y = 600;
+		this.letterTwo.y = 600;
+		this.letterThree.y = 600;
+
+		this.letterOne.scaleX = 0.35;
+		this.letterOne.scaleY = 0.35;
+		this.letterTwo.scaleX = 0.35;
+		this.letterTwo.scaleY = 0.35;
+		this.letterThree.scaleX = 0.35;
+		this.letterThree.scaleY = 0.35;
+
+		this.arrow = new rune.display.Graphic(680,605,75,50,"","arrow");
+		this.arrow.scaleX = 0.70;
+		this.arrow.scaleY = 0.70;
+		this.arrow.visible = false;
+
+		this.stage.addChild(this.letterOne);
+		this.stage.addChild(this.letterTwo);
+		this.stage.addChild(this.letterThree);
+		this.stage.addChild(this.okLet);
+		this.stage.addChild(this.arrow);
+
+
 
 };

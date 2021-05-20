@@ -54,6 +54,8 @@ joller.scene.Credits.prototype.init = function() {
     natText.autoSize = true;
     natText.x = 380;
     natText.y = 350;
+    //natText.scaleX = 0.3;
+    //natText.scaleY = 0.3;
     this.stage.addChild(natText);
 
     var monText = new rune.text.BitmapField("Monika Carmvall","font_1");
