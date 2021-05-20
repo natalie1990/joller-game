@@ -9,7 +9,24 @@ npx google-closure-compiler \
 --js "./../../lib/rune.js" \
 --js "./../../src/scope/Manifest.js" \
 --js "./../../src/data/manifest/Resources.js" \
+--js "./../../src/entity/Bear.js" \
+--js "./../../src/entity/Car.js" \
+--js "./../../src/entity/Drop.js" \
+--js "./../../src/entity/Duck.js" \
+--js "./../../src/entity/Rattle.js" \
+--js "./../../src/entity/Star.js" \
+--js "./../../src/entity/Thing.js" \
+--js "./../../src/entity/Umbrella.js" \
 --js "./../../src/scene/game/Game.js" \
+--js "./../../src/scene/menu/Credits.js" \
+--js "./../../src/scene/menu/Hiscore.js" \
+--js "./../../src/scene/menu/Menu.js" \
+--js "./../../src/scene/menu/Rules.js" \
+--js "./../../src/scene/GameOverMenu.js" \
+--js "./../../src/scene/GameOverYes.js" \
+--js "./../../src/ui/Bubble.js" \
+--js "./../../src/ui/Hud.js" \
+--js "./../../src/ui/Point.js" \
 --js "./../../src/system/Main.js" \
 --js "./../../src/scope/Alias.js" \
 --js_output_file "./../../dist/joller.js";
