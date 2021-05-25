@@ -28,7 +28,7 @@
     /**
      *  Call super constructor scope.
      */
-    rune.text.BitmapField.call(this, "test","red");
+    rune.text.BitmapField.call(this, "test","green");
 };
 //------------------------------------------------------------------------------
 //  Inheritance

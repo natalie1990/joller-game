@@ -42,7 +42,7 @@ this.music = this.application.sounds.music.get("bgmusic");
 this.music.play();
 
 this.createTimer = this.timers.create({
-	duration: 1500,
+	duration: 3000,
 	onTick: this.addToy,
 	repeat: Infinity,
 	scope: this
@@ -50,7 +50,7 @@ this.createTimer = this.timers.create({
 
 //this.cameras.getCamera(0).debug = true;
 
-const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
+var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
 this.lives = 3;
@@ -95,7 +95,7 @@ joller.scene.Game.prototype.update = function(step) {
 				}
 				this.selectedToyArray.splice(i,1); 
 			}
-		} else { //Om leksaken är skilt från droppe
+		} else { //Om leksaken inte är en droppe eller en power-up
 			if (this.selectedToyArray[i].isNormalToy){
 				this.looseLife(this.selectedToyArray[i],"toy");
 			}
@@ -103,6 +103,13 @@ joller.scene.Game.prototype.update = function(step) {
 			this.selectedToyArray.splice(i,1);
 		}
 	}
+
+if (this.m_player.x < 0){
+	this.m_player.x = 0;
+} else if (this.m_player.right > this.application.screen.width){
+	this.m_player.right = this.application.screen.width;
+}
+
 
 /**
  * Kontroller för styrning
@@ -140,9 +147,20 @@ if (this.lives > 0) {
 /**
  * Tömmer hi-score för testning
  */
-if (this.keyboard.pressed("p")){
+if (this.keyboard.justPressed("p")){
 	this.application.highscores.clear();
 }
+
+/**
+ * Mutar/un-mutar musiken
+ */
+
+if (this.keyboard.justPressed("m")){
+	this.pauseMusic();
+}
+
+
+
 
 //else {
 //	if (this.powerUpMode){
@@ -202,9 +220,10 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-			var chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6];
+			//var chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6,6,7,7,7,7];
+			var chance = [1,1,3,3,3,7,7,7]; //Test
 			var i = chance[Math.floor(Math.random()*chance.length)];
-			var toys = [joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella, joller.entity.Rattle];
+			var toys = [joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella, joller.entity.Rattle, joller.entity.Candy];
 			var toy = new toys[i]();
 			toy.x = rune.util.Math.random(0,1232);
 			this.selectedToyArray.push(toy);
@@ -217,7 +236,7 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  */
 joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 	this.application.sounds.music.volume = 0.1;
-	var laughSound = this.application.sounds.music.get("sound_skratt");
+	var laughSound = this.application.sounds.sound.get("sound_skratt");
 	laughSound.play();
 	this.totalScore += scoreOfSelectedToy;
 	this.hud.updateScore(this.totalScore);
@@ -244,7 +263,7 @@ joller.scene.Game.prototype.looseLife = function(obj,flag){
 
 	if (this.powerUpMode == false){
 		this.application.sounds.music.volume = 0.1;
-		var crySound = this.application.sounds.music.get("sound_cry");
+		var crySound = this.application.sounds.sound.get("sound_cry");
 		crySound.play();
 		this.lives -= 1;
 		if (this.lives == 0){
@@ -275,4 +294,17 @@ joller.scene.Game.prototype.gameOver = function(){
 
 joller.scene.Game.prototype.umbrellaPower = function(){
 	this.powerUpMode = false;
+};
+
+joller.scene.Game.prototype.pauseMusic = function(){
+
+	//console.log(this.music.paused);
+
+	if (this.music.paused == false) {
+		this.music.pause();
+	}
+
+	else {
+		this.music.resume();
+	}
 };

@@ -50,6 +50,11 @@ joller.entity.Thing.prototype.init = function() {
         this.flicker(Infinity,175);
     }
 
+    if (this.isCandy){
+        this.scaleX = 0.4;
+        this.scaleY = 0.4;
+    }
+
 };
 
 /**

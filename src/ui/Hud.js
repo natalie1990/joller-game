@@ -52,12 +52,12 @@ joller.ui.Hud.prototype.init = function() {
 
     var hudCont = new rune.display.DisplayObjectContainer(0,0,1280,100,"#FFFFFF");
     hudCont.alpha = 0.2;
-    //this.addChild(hudCont);
+    this.addChild(hudCont);
 
     var logo = new rune.display.Graphic(100,30,750,200,"","logo_small");
     this.addChild(logo);
 
-    this.pointsText = new rune.text.BitmapField("","font_1");
+    this.pointsText = new rune.text.BitmapField("","font2");
 
     if (this.score == null) {
         this.pointsText.text = "Score\n  0";
@@ -69,7 +69,7 @@ joller.ui.Hud.prototype.init = function() {
     this.pointsText.y = 20;
     this.addChild(this.pointsText);
 
-    this.livesText = new rune.text.BitmapField("Lives\n  " + this.lives,"font_1");
+    this.livesText = new rune.text.BitmapField("Lives\n  " + this.lives,"font2");
     this.livesText.autoSize = true;
     this.livesText.x = 750;
     this.livesText.y = 20;
@@ -97,7 +97,7 @@ joller.ui.Hud.prototype.dispose = function() {
 
 joller.ui.Hud.prototype.updateScore = function(newScore){
     this.removeChild(this.pointsText);
-    this.pointsText = new rune.text.BitmapField("","font_1");
+    this.pointsText = new rune.text.BitmapField("","font2");
     this.pointsText.text = "Score\n  " + newScore;
     this.pointsText.autoSize = true;
     this.pointsText.x = 500;
@@ -123,7 +123,7 @@ joller.ui.Hud.prototype.updateLives = function(newLives){
             this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub3");
       }
     this.addChild(this.bathtub);
-    this.livesText = new rune.text.BitmapField("Lives\n  " + newLives,"font_1");
+    this.livesText = new rune.text.BitmapField("Lives\n  " + newLives,"font2");
     this.livesText.autoSize = true;
     this.livesText.x = 700;
     this.livesText.y = 20;

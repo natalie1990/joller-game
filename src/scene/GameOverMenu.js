@@ -35,7 +35,7 @@ joller.scene.GameOverMenu.prototype.init = function() {
 
 
 
-const backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
+var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
 

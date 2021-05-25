@@ -13,7 +13,8 @@
  * 
  * Game state.
  */
-joller.scene.Menu = function() {
+joller.scene.Menu = function(music) {
+    this.music = music;
     this.selectedIndex = 0;
     this.options = [];
     this.playBtn = null;
@@ -52,6 +53,12 @@ joller.scene.Menu.prototype.init = function() {
 
 	var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
     this.stage.addChild(backroundImg);
+
+    if (this.music == null) {
+        this.application.sounds.music.volume = 0.1;
+        this.music = this.application.sounds.music.get("bgmusic");
+        this.music.play();
+    }
 
     this.viewLogo();
 
@@ -117,10 +124,11 @@ joller.scene.Menu.prototype.update = function(step) {
 	if (this.keyboard.justPressed("space")){
 
         if (this.options[this.selectedIndex] == "A"){
+            this.music.stop();
             this.application.scenes.load([new joller.scene.Game()]);
         }
         else if (this.options[this.selectedIndex] == "B"){
-            this.application.scenes.load([new joller.scene.Hiscore()]);
+            this.application.scenes.load([new joller.scene.Hiscore(this.music)]);
         }
         else if (this.options[this.selectedIndex] == "C"){
             this.application.scenes.load([new joller.scene.Rules()]);
