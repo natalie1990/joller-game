@@ -28,7 +28,7 @@
     /**
      *  Call super constructor scope.
      */
-    rune.display.Graphic.call(this, 300,300,50,50,"","bubble1");
+    rune.display.Graphic.call(this, 300,300,50,50,"","bubble3");
 };
 //------------------------------------------------------------------------------
 //  Inheritance

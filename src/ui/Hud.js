@@ -25,6 +25,7 @@
     this.pointsText = null;
     this.livesText = null;
     this.bathtub = null;
+    this.soundImg = null;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -65,18 +66,21 @@ joller.ui.Hud.prototype.init = function() {
         this.pointsText.text = "Score\n  " + this.score;
     }
     this.pointsText.autoSize = true;
-    this.pointsText.x = 500;
+    this.pointsText.x = 450;
     this.pointsText.y = 20;
     this.addChild(this.pointsText);
 
     this.livesText = new rune.text.BitmapField("Lives\n  " + this.lives,"font2");
     this.livesText.autoSize = true;
-    this.livesText.x = 750;
+    this.livesText.x = 700;
     this.livesText.y = 20;
     this.addChild(this.livesText);
 
-    this.bathtub = new rune.display.Graphic(920,30,170,60,"","tub3");
+    this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub3");
     this.addChild(this.bathtub);
+
+    this.soundImg = new rune.display.Graphic(1100,32,100,50,"","sOn");
+    this.addChild(this.soundImg);
 };
 
 /**
@@ -100,7 +104,7 @@ joller.ui.Hud.prototype.updateScore = function(newScore){
     this.pointsText = new rune.text.BitmapField("","font2");
     this.pointsText.text = "Score\n  " + newScore;
     this.pointsText.autoSize = true;
-    this.pointsText.x = 500;
+    this.pointsText.x = 450;
     this.pointsText.y = 20;
     this.addChild(this.pointsText);
 };
@@ -111,16 +115,16 @@ joller.ui.Hud.prototype.updateLives = function(newLives){
 
     switch(newLives) {
         case 2:
-            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub2");
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub2");
           break;
         case 1:
-            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub1");
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub1");
             break;
         case 0:
-            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub0");
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub0");
             break;
         default:
-            this.bathtub = new rune.display.Graphic(870,30,170,60,"","tub3");
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub3");
       }
     this.addChild(this.bathtub);
     this.livesText = new rune.text.BitmapField("Lives\n  " + newLives,"font2");
@@ -128,4 +132,21 @@ joller.ui.Hud.prototype.updateLives = function(newLives){
     this.livesText.x = 700;
     this.livesText.y = 20;
     this.addChild(this.livesText);
+
+};
+
+joller.ui.Hud.prototype.mute = function(mute){
+
+    this.removeChild(this.soundImg);
+
+    if (mute == "yes"){
+        this.soundImg = new rune.display.Graphic(1100,32,100,50,"","sOff");
+        this.addChild(this.soundImg);
+    }
+
+    if (mute == "no"){
+        this.soundImg = new rune.display.Graphic(1100,32,100,50,"","sOn");
+        this.addChild(this.soundImg);
+    }
+
 };

@@ -27,7 +27,7 @@
     /**
      *  Call super constructor scope.
      */
-    joller.entity.Thing.call(this, "toy_bear");
+    joller.entity.Thing.call(this, "toy_bear2");
 };
 //------------------------------------------------------------------------------
 //  Inheritance

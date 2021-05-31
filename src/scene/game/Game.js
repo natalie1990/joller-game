@@ -8,13 +8,14 @@
 	this.m_player = null; //Avatar - bebis
 	this.hud = null; //Objekt för HUD
 	this.selectedToyArray = []; // Array med skapade leksaker
-	this.totalScore = null;
-	this.lives = null;
-	this.createTimer = null;
-	this.music = null;
-	this.point = new joller.ui.Point();
-	this.bubble = new joller.ui.Bubble();
-	this.powerUpMode = false;
+	this.totalScore = null; // Spelarens totala poäng
+	this.lives = null; // Spelarens totala liv
+	this.createTimer = null; // Timer för fallande objekt
+	this.music = null;	// Bakgrundsmusiken
+	this.point = new joller.ui.Point(); // Visar poäng vid fångad leksak
+	this.bubble = new joller.ui.Bubble();  // Visar bubbla vid missad leksal
+	this.powerUpMode = false; // Flagga för att visa om paraply power-up är aktiv
+	this.candyPower = false; // Flagga för att visa om godis power-up är aktiv
 
     /**
      * Supercall
@@ -37,28 +38,39 @@ joller.scene.Game.prototype.constructor = joller.scene.Game;
 joller.scene.Game.prototype.init = function() {
 	rune.scene.Scene.prototype.init.call(this);
 
+/**
+ * Hantering för bakgrundsmusik
+ */
 this.application.sounds.music.volume = 0.1;
 this.music = this.application.sounds.music.get("bgmusic");
 this.music.play();
 
-this.createTimer = this.timers.create({
+/**
+ * Skapar timer för fallande objekt
+ */
+ this.createTimer = this.timers.create({
 	duration: 3000,
 	onTick: this.addToy,
 	repeat: Infinity,
 	scope: this
 });
 
-//this.cameras.getCamera(0).debug = true;
-
+/**
+ * Bakgrundsbild
+ */
 var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
+
+/**
+ * Intierar spelarens liv, spelaren och HUD:en
+ */
 this.lives = 3;
 
 this.m_initPlayer();
 this.initHud();
 
-};
+}; //End of init
 
 
 /**
@@ -76,10 +88,11 @@ joller.scene.Game.prototype.update = function(step) {
 	for (var i=0; i<this.selectedToyArray.length; i++){
 		if (this.selectedToyArray[i].y < 640){
 			if (this.m_player.hitTestObject(this.selectedToyArray[i])){
-				
+
+				// Kontrollerar om paraply-mode ska aktiveras och startar timer
 				if (this.selectedToyArray[i].powerUp == true){
 					this.powerUpMode = true;
-					this.powerUpTimer = this.timers.create({
+					var powerUpTimer = this.timers.create({
 						duration: 10000,
 						onComplete: this.umbrellaPower,
 						scope: this
@@ -88,6 +101,7 @@ joller.scene.Game.prototype.update = function(step) {
 				
 				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
 				
+				// Kontrollerar om det är en poänggivare leksak eller droppe
 				if (this.selectedToyArray[i].looseOneLife == true){
 					this.looseLife(this.selectedToyArray[i],"drop");
 				} else {
@@ -95,7 +109,8 @@ joller.scene.Game.prototype.update = function(step) {
 				}
 				this.selectedToyArray.splice(i,1); 
 			}
-		} else { //Om leksaken inte är en droppe eller en power-up
+
+		} else { // Kontrollerar om objektet är en vanlig leksak
 			if (this.selectedToyArray[i].isNormalToy){
 				this.looseLife(this.selectedToyArray[i],"toy");
 			}
@@ -104,6 +119,9 @@ joller.scene.Game.prototype.update = function(step) {
 		}
 	}
 
+/**
+ * Kontroll för att spelaren ej ska kunna gå utanför skärm
+ */
 if (this.m_player.x < 0){
 	this.m_player.x = 0;
 } else if (this.m_player.right > this.application.screen.width){
@@ -114,7 +132,6 @@ if (this.m_player.x < 0){
 /**
  * Kontroller för styrning
  */
-
 if (this.lives > 0) {
 	if (this.keyboard.pressed("right")){
 	this.m_player.x += 5;
@@ -159,19 +176,7 @@ if (this.keyboard.justPressed("m")){
 	this.pauseMusic();
 }
 
-
-
-
-//else {
-//	if (this.powerUpMode){
-//		this.m_player.animations.gotoAndPlay("idle_u");
-//	}
-//	else {
-//		this.m_player.animations.gotoAndPlay("idle");
-//	}
-//}
-
-};
+}; // End of update
 
 
 /**
@@ -182,7 +187,7 @@ joller.scene.Game.prototype.dispose = function() {
     rune.scene.Scene.prototype.dispose.call(this);
 	this.m_player.dispose();
 	this.m_player = null;
-};
+}; // End of dispose
 
 /**
  * Initierar HUD
@@ -193,7 +198,7 @@ joller.scene.Game.prototype.initHud = function(){
 };
 
 /**
- * Skapar avataren - bebisen
+ * Skapar spelaren - bebisen
  */
 joller.scene.Game.prototype.m_initPlayer = function(){
 	this.m_player = new rune.display.Sprite(
@@ -206,11 +211,20 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	);
 
 	this.m_player.hitbox.set(5,5,60,50);
+
+// Animation för spelarens default-läge
 	this.m_player.animations.add("idle", [0], 6, true);
 	this.m_player.animations.add("walk", [1,2,3,4,5], 8, true);
 	this.m_player.animations.gotoAndPlay("walk");
+
+// Animation för spelaren när godis-mode är aktivt
+	this.m_player.animations.add("walk_c", [1,2,3,4,5], 12, true);
+
+// Animation för spelaren när paraply-mode är aktivt
 	this.m_player.animations.add("idle_u", [6], 6, true);
 	this.m_player.animations.add("walk_u", [7,8,9,10,11], 8, true);
+
+// Placerar spelaren på scenen
 	this.stage.addChild(this.m_player);
 };
 
@@ -248,13 +262,12 @@ joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 	this.stage.addChild(this.point);
 };
 
+
 joller.scene.Game.prototype.looseLife = function(obj,flag){
 
 	this.m_player.flicker();
 
 	if (flag == "toy"){
-		//this.bubble.autoSize = true;
-		//this.bubble.text = "-Life";
 		this.bubble.centerX = obj.centerX;
 		this.bubble.bottom = obj.top;
 		this.stage.addChild(this.bubble);
@@ -302,9 +315,11 @@ joller.scene.Game.prototype.pauseMusic = function(){
 
 	if (this.music.paused == false) {
 		this.music.pause();
+		this.hud.mute("yes");
 	}
 
 	else {
 		this.music.resume();
+		this.hud.mute("no");
 	}
 };
