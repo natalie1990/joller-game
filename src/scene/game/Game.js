@@ -98,6 +98,16 @@ joller.scene.Game.prototype.update = function(step) {
 						scope: this
 					});
 				}
+
+				// Kontrollerar om godis-mode ska aktiveras och startar timer
+				if (this.selectedToyArray[i].isCandy == true){
+					this.candyPower = true;
+					var candyTimer = this.timers.create({
+						duration: 10000,
+						onComplete: this.candyMode,
+						scope: this
+					});
+				}
 				
 				this.selectedToyArray[i].parent.removeChild(this.selectedToyArray[i]);
 				
@@ -132,26 +142,45 @@ if (this.m_player.x < 0){
 /**
  * Kontroller för styrning
  */
+
+// Animation för walk right
 if (this.lives > 0) {
 	if (this.keyboard.pressed("right")){
-	this.m_player.x += 5;
+		if (this.candyPower == false) {
+			this.m_player.x += 5;
+		} else {
+			this.m_player.x += 8;
+		}
 	this.m_player.flippedX = false;
 	if (this.powerUpMode){
 		this.m_player.animations.gotoAndPlay("walk_u");
+	} else if (this.candyPower){
+		this.m_player.animations.gotoAndPlay("walk_c");
 	} else {
 		this.m_player.animations.gotoAndPlay("walk");
 	}
 
-	}
+	} // End of right
+
+// Animation för walk left
 	else if(this.keyboard.pressed("left")) {
-	this.m_player.x -= 5;
+	if (this.candyPower == false) {
+		this.m_player.x -= 5;
+	} else {
+		this.m_player.x -= 8;
+	}
+
 	this.m_player.flippedX = true;
 	if (this.powerUpMode){
 		this.m_player.animations.gotoAndPlay("walk_u");
+	} else if (this.candyPower){
+		this.m_player.animations.gotoAndPlay("walk_c");
 	} else {
 		this.m_player.animations.gotoAndPlay("walk");
 	}
-			  }
+			  } // End of left
+
+// Animation för idle
 	else {
 		if (this.powerUpMode){
 			this.m_player.animations.gotoAndPlay("idle_u");
@@ -218,7 +247,7 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	this.m_player.animations.gotoAndPlay("walk");
 
 // Animation för spelaren när godis-mode är aktivt
-	this.m_player.animations.add("walk_c", [1,2,3,4,5], 12, true);
+	this.m_player.animations.add("walk_c", [1,2,3,4,5], 16, true);
 
 // Animation för spelaren när paraply-mode är aktivt
 	this.m_player.animations.add("idle_u", [6], 6, true);
@@ -234,8 +263,8 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-			//var chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6,6,7,7,7,7];
-			var chance = [1,1,3,3,3,7,7,7]; //Test
+			chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6,6,7,7,7,7];
+			//var chance = [1,1,3,3,3,7,7,7];
 			var i = chance[Math.floor(Math.random()*chance.length)];
 			var toys = [joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella, joller.entity.Rattle, joller.entity.Candy];
 			var toy = new toys[i]();
@@ -307,6 +336,10 @@ joller.scene.Game.prototype.gameOver = function(){
 
 joller.scene.Game.prototype.umbrellaPower = function(){
 	this.powerUpMode = false;
+};
+
+joller.scene.Game.prototype.candyMode = function(){
+	this.candyPower = false;
 };
 
 joller.scene.Game.prototype.pauseMusic = function(){

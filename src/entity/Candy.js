@@ -22,6 +22,7 @@
  */
  joller.entity.Candy = function() {
      this.tweens = null;
+     this.isCandy = true;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -44,8 +45,7 @@ joller.entity.Candy.prototype.constructor = joller.entity.Candy;
  */
 joller.entity.Candy.prototype.init = function() {
     joller.entity.Thing.prototype.init.call(this);
-    this.isCandy = true;
-
+    this.score = 30;
     this.tweens = new rune.tween.Tweens();
     this.tweenIn();
     //@TODO: Write app code.
