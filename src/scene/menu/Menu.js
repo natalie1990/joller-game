@@ -124,6 +124,7 @@ joller.scene.Menu.prototype.update = function(step) {
 	if (this.keyboard.justPressed("space")){
 
         if (this.options[this.selectedIndex] == "A"){
+            console.log(this.music);
             this.music.stop();
             this.application.scenes.load([new joller.scene.Game()]);
         }
@@ -131,10 +132,10 @@ joller.scene.Menu.prototype.update = function(step) {
             this.application.scenes.load([new joller.scene.Hiscore(this.music)]);
         }
         else if (this.options[this.selectedIndex] == "C"){
-            this.application.scenes.load([new joller.scene.Rules()]);
+            this.application.scenes.load([new joller.scene.Rules(this.music)]);
         }
         else if (this.options[this.selectedIndex] == "D"){
-            this.application.scenes.load([new joller.scene.Credits()]);
+            this.application.scenes.load([new joller.scene.Credits(this.music)]);
         }
 	}
 };

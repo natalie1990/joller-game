@@ -13,7 +13,7 @@
  * 
  * Game state.
  */
-joller.scene.Rules = function() {
+joller.scene.Rules = function(music) {
 
     //--------------------------------------------------------------------------
     // Super call
@@ -24,6 +24,7 @@ joller.scene.Rules = function() {
     this.umbrella = null;
     this.star = null;
     this.candy = null;
+    this.music = music;
 
     /**
      * ...
@@ -219,7 +220,7 @@ joller.scene.Rules.prototype.update = function(step) {
     rune.scene.Scene.prototype.update.call(this, step);
 
 	if (this.keyboard.justPressed("space")){
-		this.application.scenes.load([new joller.scene.Menu()]);
+		this.application.scenes.load([new joller.scene.Menu(this.music)]);
 	}
 
     this.m_player.animations.gotoAndPlay("walk");

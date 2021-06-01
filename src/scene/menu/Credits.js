@@ -13,8 +13,8 @@
  * 
  * Game state.
  */
-joller.scene.Credits = function() {
-
+joller.scene.Credits = function(music) {
+    this.music = music;
     //--------------------------------------------------------------------------
     // Super call
     //--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ joller.scene.Credits.prototype.update = function(step) {
     rune.scene.Scene.prototype.update.call(this, step);
 
 	if (this.keyboard.justPressed("space")){
-		this.application.scenes.load([new joller.scene.Menu()]);
+		this.application.scenes.load([new joller.scene.Menu(this.music)]);
 	}
 };
 

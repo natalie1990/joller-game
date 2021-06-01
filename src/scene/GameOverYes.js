@@ -162,7 +162,7 @@ joller.scene.GameOverYes.prototype.GameOver = function(){
  newHi.scaleY = 0.95;
 this.stage.addChild(newHi);
 
-var enter = new rune.text.BitmapField("Enter your name","new");
+var enter = new rune.text.BitmapField("Enter your name","font");
 enter.autoSize = true;
 enter.scaleX = 0.25;
 enter.scaleY = 0.25;

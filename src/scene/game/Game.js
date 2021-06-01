@@ -13,7 +13,7 @@
 	this.createTimer = null; // Timer för fallande objekt
 	this.music = null;	// Bakgrundsmusiken
 	this.point = new joller.ui.Point(); // Visar poäng vid fångad leksak
-	this.bubble = new joller.ui.Bubble();  // Visar bubbla vid missad leksal
+	this.bubble = null;  // Visar bubbla vid missad leksal
 	this.powerUpMode = false; // Flagga för att visa om paraply power-up är aktiv
 	this.candyPower = false; // Flagga för att visa om godis power-up är aktiv
 
@@ -263,7 +263,7 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  * Skapar nya instanser av leksaker och sparar i array samt lägger ut på scen
  */
 	joller.scene.Game.prototype.addToy = function(){
-			chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6,6,7,7,7,7];
+			var chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6,6,7,7,7,7];
 			//var chance = [1,1,3,3,3,7,7,7];
 			var i = chance[Math.floor(Math.random()*chance.length)];
 			var toys = [joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella, joller.entity.Rattle, joller.entity.Candy];
@@ -297,6 +297,7 @@ joller.scene.Game.prototype.looseLife = function(obj,flag){
 	this.m_player.flicker();
 
 	if (flag == "toy"){
+		this.bubble = new joller.ui.Bubble();
 		this.bubble.centerX = obj.centerX;
 		this.bubble.bottom = obj.top;
 		this.stage.addChild(this.bubble);

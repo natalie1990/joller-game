@@ -64,7 +64,6 @@ joller.scene.Hiscore.prototype.init = function() {
 
     var listText = new rune.text.BitmapField("","font2");
     var rowText = "";
-    //Lägg in datum här sen med?
     for (var i=0; i<hiscoreArray.length; i++){
         rowText += ": " + hiscoreArray[i].name + "  " + hiscoreArray[i].score + "\n";
     }
@@ -95,7 +94,7 @@ joller.scene.Hiscore.prototype.update = function(step) {
     rune.scene.Scene.prototype.update.call(this, step);
 
 	if (this.keyboard.justPressed("space")){
-		this.application.scenes.load([new joller.scene.Menu(this.music)]);
+        this.application.scenes.load([new joller.scene.Menu(this.music)]);
 	}
 };
 
