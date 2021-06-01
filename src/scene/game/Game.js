@@ -43,7 +43,7 @@ joller.scene.Game.prototype.init = function() {
  */
 this.application.sounds.music.volume = 0.1;
 this.music = this.application.sounds.music.get("bgmusic");
-this.music.play();
+//this.music.play();
 
 /**
  * Skapar timer för fallande objekt
@@ -253,7 +253,6 @@ joller.scene.Game.prototype.m_initPlayer = function(){
 	this.m_player.animations.add("idle_u", [6], 6, true);
 	this.m_player.animations.add("walk_u", [7,8,9,10,11], 8, true);
 
-// Placerar spelaren på scenen
 	this.stage.addChild(this.m_player);
 };
 
@@ -264,7 +263,7 @@ joller.scene.Game.prototype.m_initPlayer = function(){
  */
 	joller.scene.Game.prototype.addToy = function(){
 			var chance = [0,0,0,0,0,1,1,2,3,3,4,4,5,6,6,7,7,7,7];
-			//var chance = [1,1,3,3,3,7,7,7];
+			//var chance = [7,7,7];
 			var i = chance[Math.floor(Math.random()*chance.length)];
 			var toys = [joller.entity.Drop, joller.entity.Duck, joller.entity.Star, joller.entity.Bear, joller.entity.Car, joller.entity.Umbrella, joller.entity.Rattle, joller.entity.Candy];
 			var toy = new toys[i]();

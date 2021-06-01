@@ -164,8 +164,6 @@ this.stage.addChild(newHi);
 
 var enter = new rune.text.BitmapField("Enter your name","font");
 enter.autoSize = true;
-enter.scaleX = 0.25;
-enter.scaleY = 0.25;
 enter.x = 445;
 enter.y = 540;
 this.stage.addChild(enter);
@@ -175,16 +173,14 @@ this.stage.addChild(enter);
 /**
  * The letters for typing the player's name
  */
-		this.letterOne = new rune.text.BitmapField("A","new");
+		this.letterOne = new rune.text.BitmapField("A","font");
 		this.letters.push(this.letterOne);
-		this.letterTwo = new rune.text.BitmapField("B","new");
+		this.letterTwo = new rune.text.BitmapField("B","font");
 		this.letters.push(this.letterTwo);
-		this.letterThree = new rune.text.BitmapField("C","new");
+		this.letterThree = new rune.text.BitmapField("C","font");
 		this.letters.push(this.letterThree);
 		this.okLet = new rune.display.Graphic(710,600,75,50,"","ok");
 		this.letters.push(this.okLet);
-		this.okLet.scaleX = 0.75;
-		this.okLet.scaleY = 0.75;
 		this.okLet.id = "ok";
 		this.letterOne.autoSize = true;
 		this.letterTwo.autoSize = true;
@@ -196,16 +192,9 @@ this.stage.addChild(enter);
 		this.letterTwo.y = 600;
 		this.letterThree.y = 600;
 
-		this.letterOne.scaleX = 0.35;
-		this.letterOne.scaleY = 0.35;
-		this.letterTwo.scaleX = 0.35;
-		this.letterTwo.scaleY = 0.35;
-		this.letterThree.scaleX = 0.35;
-		this.letterThree.scaleY = 0.35;
-
 		this.arrow = new rune.display.Graphic(680,605,75,50,"","arrow");
-		this.arrow.scaleX = 0.70;
-		this.arrow.scaleY = 0.70;
+		this.arrow.scaleX = 0.8;
+		this.arrow.scaleY = 0.8;
 		this.arrow.visible = false;
 
 		this.stage.addChild(this.letterOne);

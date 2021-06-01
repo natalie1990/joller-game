@@ -62,13 +62,13 @@ joller.scene.Hiscore.prototype.init = function() {
     var five = this.application.highscores.get(4);
     hiscoreArray.push(five);
 
-    var listText = new rune.text.BitmapField("","font2");
+    var listText = new rune.text.BitmapField("","font");
     var rowText = "";
     for (var i=0; i<hiscoreArray.length; i++){
         rowText += ": " + hiscoreArray[i].name + "  " + hiscoreArray[i].score + "\n";
     }
 
-    var numText = new rune.text.BitmapField("1\n2\n3\n4\n5","font2");
+    var numText = new rune.text.BitmapField("1\n2\n3\n4\n5","font");
     numText.autoSize = true;
     numText.x = 500;
     numText.y = 350;

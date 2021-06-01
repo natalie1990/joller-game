@@ -225,7 +225,7 @@ joller.scene.Rules.prototype.update = function(step) {
 
     this.m_player.animations.gotoAndPlay("walk");
 
-    //this.umbrella.rotation += 3;
+    this.umbrella.rotation += 5;
 };
 
 /**

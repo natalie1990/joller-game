@@ -23,6 +23,8 @@
  joller.entity.Candy = function() {
      this.tweens = null;
      this.isCandy = true;
+     this.px = 0;
+     this.py = 0;
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -56,7 +58,7 @@ joller.entity.Candy.prototype.init = function() {
  */
 joller.entity.Candy.prototype.update = function(step) {
     joller.entity.Thing.prototype.update.call(this, step);
-
+    //console.log(step);
     this.tweens.update(step);
 
     //@TODO: Write app code.
@@ -76,7 +78,7 @@ joller.entity.Candy.prototype.tweenIn = function() {
         scaleX: 0.8,
         scaleY: 0.8,
         duration: 500,
-        onComplete: this.tweenOut,
+        oncomplete: this.tweenOut,
         scope: this
     });
 };
@@ -86,8 +88,7 @@ joller.entity.Candy.prototype.tweenOut = function() {
         scaleX: 1.0,
         scaleY: 1.0,
         duration: 500,
-        onComplete: this.tweenIn,
+        oncomplete: this.tweenIn,
         scope: this
     });
 };
-

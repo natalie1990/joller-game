@@ -50,7 +50,7 @@ joller.scene.Credits.prototype.init = function() {
     var creditsHeader = new rune.display.Graphic(505,260,400,200,"","credits");
     this.stage.addChild(creditsHeader);
 
-    var natText = new rune.text.BitmapField("Natalie Silva-Kihlen","font2");
+    var natText = new rune.text.BitmapField("Natalie Silva-Kihlen","font");
     natText.autoSize = true;
     natText.x = 380;
     natText.y = 350;
@@ -58,13 +58,13 @@ joller.scene.Credits.prototype.init = function() {
     //natText.scaleY = 0.6;
     this.stage.addChild(natText);
 
-    var monText = new rune.text.BitmapField("Monika Carmvall","font2");
+    var monText = new rune.text.BitmapField("Monika Carmvall","font");
     monText.autoSize = true;
     monText.x = 430;
     monText.y = 412;
     this.stage.addChild(monText);
 
-    var proText = new rune.text.BitmapField("IMWT VT-21","font2");
+    var proText = new rune.text.BitmapField("IMWT VT-21","font");
     proText.autoSize = true;
     proText.x = 490;
     proText.y = 475;

@@ -57,7 +57,7 @@ joller.scene.Menu.prototype.init = function() {
     if (this.music == null) {
         this.application.sounds.music.volume = 0.1;
         this.music = this.application.sounds.music.get("bgmusic");
-        this.music.play();
+        //this.music.play();
     }
 
     this.viewLogo();
