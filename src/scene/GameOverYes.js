@@ -17,7 +17,8 @@
 	this.totalScore = totalScore;	// Spelarens totala poäng som skickas med som parameter
 	this.lives = 0;					// Variabel för att initera att 0 liv ska finnas
 	this.cryBaby = null;			// Game over sprite
-	this.tweens = null;
+	//this.tweens = null;			// Tweenen för confetti
+	this.conf = null; 				// Confetti-graphic
 
     /**
      * Supercall
@@ -47,16 +48,19 @@ this.initHud();
 
 this.GameOver();
 
-var conf = new rune.display.Graphic(342,400,600,150,"","confetti");
-this.stage.addChild(conf);
+this.conf = new rune.display.Graphic(342,370,600,150,"","confetti");
+this.stage.addChild(this.conf);
+this.conf.flicker(Infinity,175);
 
+/* BORTKOMMENTERAD AV SAMMA ORSAK SOM I FILEN RULES, DVS BUGG I SDK:N VID KOMPILERING, - SE ORSAK UNDER RULES
 this.tweens = new rune.tween.Tweens();
-this.tweens.add(conf,{
+this.tweens.add(this.conf,{
 	duration: 7000,
 	alpha: 0,
-	y: conf.y - 40,
+	y: this.conf.y - 40,
 	scope: this
 });
+*/
 
 };
 

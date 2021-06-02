@@ -23,9 +23,9 @@ joller.scene.Rules = function(music) {
     this.cryBaby = null;    // Sprite för Game Over-bebis
     this.umbrella = null;   // Graphic för paraplyt som ska animeras
     this.star = null;       // Graphic för stjärnan som ska animeras
-    this.candy = null;      // Graphic för karamellen som ska animeras
+    this.candy = null;      // Graphic för karamellen som ska animeras (global endast tidigare för tween)
     this.music = music;     // Bakgrundsmusik
-    this.tweens = null;     // Tween för karamellen
+    //this.tweens = null;     // Tween för karamellen
 
     /**
      * ...
@@ -141,6 +141,7 @@ joller.scene.Rules.prototype.init = function() {
      this.stage.addChild(starText);
 
      this.candy = new rune.display.Graphic(380,442,50,40,"","rules_karamell");
+     this.candy.flicker(Infinity,175);
      this.stage.addChild(this.candy);
 
      var sugar = new rune.text.BitmapField("Sugar Rush\n   10s","rules_font");
@@ -149,8 +150,12 @@ joller.scene.Rules.prototype.init = function() {
      sugar.y = 490;
      this.stage.addChild(sugar);
 
-     this.tweens = new rune.tween.Tweens();
-     this.tweenIn();
+/**
+ * BORTKOMMENTERAD PGA SE TEXT LÄNGST NED I DOKUMENTET
+this.tweens = new rune.tween.Tweens();
+this.tweenIn();
+ */
+
 
 /**
  * Badkar
@@ -316,9 +321,14 @@ joller.scene.Rules.prototype.initSprites = function(){
 
     };
 
+
+// OBS! NEDANSTÅENDE KOD ÄR BORTKOMMENTERAD DÅ DET VERKAR VARA EN BUGG I SDK, NÄMLIGEN ATT
+// TWEEN GÖR SÅ ATT CONSOLEN KLAGAR EFTER KOMPILERING, DVS DETTA PROBLEM UPPSTÅR 
+// ENDAST I DEN KOMPILERADE VERSIONEN!!
+
 /**
  * Hanterar tweenIn för karamell
- */
+ 
     joller.scene.Rules.prototype.tweenIn = function() {
         this.tweens.add(this.candy,{
             scaleX: 0.8,
@@ -331,7 +341,7 @@ joller.scene.Rules.prototype.initSprites = function(){
 
 /**
  * Hanterar tweenOut för karamell
- */
+ 
     joller.scene.Rules.prototype.tweenOut = function() {
         this.tweens.add(this.candy,{
             scaleX: 1.0,
@@ -341,4 +351,4 @@ joller.scene.Rules.prototype.initSprites = function(){
             scope: this
         });
     };
-    
+*/

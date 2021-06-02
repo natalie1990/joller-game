@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scene/menu/Hiscore.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scene/menu/Hiscore.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// JavaScript Document//------------------------------------------------------------------------------
+// Constructor scope
+//------------------------------------------------------------------------------
+
+/**
+ * Creates a new object.
+ *
+ * @constructor
+ * @extends rune.scene.Scene
+ *
+ * @class
+ * @classdesc
+ * 
+ * Game state.
+ */
+joller.scene.Hiscore = function(music) {
+    this.music = music;
+    //--------------------------------------------------------------------------
+    // Super call
+    //--------------------------------------------------------------------------
+    
+    /**
+     * ...
+     */
+    rune.scene.Scene.call(this);
+};
+
+//------------------------------------------------------------------------------
+// Inheritance
+//------------------------------------------------------------------------------
+
+joller.scene.Hiscore.prototype = Object.create(rune.scene.Scene.prototype);
+joller.scene.Hiscore.prototype.constructor = joller.scene.Hiscore;
+
+//------------------------------------------------------------------------------
+// Override public prototype methods (ENGINE)
+//------------------------------------------------------------------------------
+
+/**
+ * @inheritDoc
+ */ //Förbereder scenen
+joller.scene.Hiscore.prototype.init = function() {
+    rune.scene.Scene.prototype.init.call(this);
+
+	var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
+    this.stage.addChild(backroundImg);
+
+    this.viewLogo();
+
+    var hiscoreHeader = new rune.display.Graphic(505,260,400,170,"","hiscore");
+    this.stage.addChild(hiscoreHeader);
+
+    var hiscoreArray = [];
+    var first = this.application.highscores.get(0);
+    hiscoreArray.push(first);
+    var second = this.application.highscores.get(1);
+    hiscoreArray.push(second);
+    var third = this.application.highscores.get(2);
+    hiscoreArray.push(third);
+    var four = this.application.highscores.get(3);
+    hiscoreArray.push(four);
+    var five = this.application.highscores.get(4);
+    hiscoreArray.push(five);
+
+    var listText = new rune.text.BitmapField("","font");
+    var rowText = "";
+    for (var i=0; i&lt;hiscoreArray.length; i++){
+        rowText += ": " + hiscoreArray[i].name + "  " + hiscoreArray[i].score + "\n";
+    }
+
+    var numText = new rune.text.BitmapField("1\n2\n3\n4\n5","font");
+    numText.autoSize = true;
+    numText.x = 500;
+    numText.y = 350;
+    this.stage.addChild(numText);
+
+    listText.text = rowText;
+    listText.autoSize = true;
+    listText.x = 530;
+    listText.y = 350;
+    this.stage.addChild(listText);
+
+    var arrow = new rune.display.Graphic(538,550,80,30,"","arrow");
+    this.stage.addChild(arrow);
+
+	var backBtn = new rune.display.Graphic(578,545,180,60,"","back");
+    this.stage.addChild(backBtn);
+};
+
+/**
+ * @inheritDoc
+ */
+joller.scene.Hiscore.prototype.update = function(step) {
+    rune.scene.Scene.prototype.update.call(this, step);
+
+	if (this.keyboard.justPressed("space")){
+        this.application.scenes.load([new joller.scene.Menu(this.music)]);
+	}
+};
+
+/**
+ * @inheritDoc
+ */
+joller.scene.Hiscore.prototype.dispose = function() {
+    rune.scene.Scene.prototype.dispose.call(this);
+};
+
+joller.scene.Hiscore.prototype.viewLogo = function(){
+    var logo = new rune.display.Graphic(400,100,750,200,"","logo");
+    logo.scaleX = 0.6;
+    logo.scaleY = 0.6;
+    this.stage.addChild(logo);
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="joller.html">joller</a></li><li><a href="joller.data.html">data</a></li><li><a href="joller.scene.html">scene</a></li><li><a href="joller.system.html">system</a></li></ul><h3>Classes</h3><ul><li><a href="joller.data.Resources.html">Resources</a></li><li><a href="joller.entity.Bear.html">Bear</a></li><li><a href="joller.entity.Candy.html">Candy</a></li><li><a href="joller.entity.Car.html">Car</a></li><li><a href="joller.entity.Drop.html">Drop</a></li><li><a href="joller.entity.Duck.html">Duck</a></li><li><a href="joller.entity.Rattle.html">Rattle</a></li><li><a href="joller.entity.Star.html">Star</a></li><li><a href="joller.entity.Thing.html">Thing</a></li><li><a href="joller.entity.Umbrella.html">Umbrella</a></li><li><a href="joller.scene.Credits.html">Credits</a></li><li><a href="joller.scene.Hiscore.html">Hiscore</a></li><li><a href="joller.scene.Menu.html">Menu</a></li><li><a href="joller.scene.Rules.html">Rules</a></li><li><a href="joller.system.Main.html">Main</a></li><li><a href="joller.ui.Bubble.html">Bubble</a></li><li><a href="joller.ui.Hud.html">Hud</a></li><li><a href="joller.ui.Point.html">Point</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 02 2021 23:44:42 GMT+0200 (centraleuropeisk sommartid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

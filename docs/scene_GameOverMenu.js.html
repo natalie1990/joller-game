@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scene/GameOverMenu.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scene/GameOverMenu.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Constructor
+ * Ärver från rune.scene.Scene
+ * GameOverMenu state.
+ */
+ joller.scene.GameOverMenu = function(totalScore) {
+
+	this.menuArray = ["play","menu"];
+	this.selectedIndex = 0;
+	this.arrow = null;
+	this.totalScore = totalScore;
+	this.cryBaby = null;
+
+    /**
+     * Supercall
+     */
+    rune.scene.Scene.call(this);
+};
+
+/**
+ * 
+ * Arv
+ * 
+ */
+joller.scene.GameOverMenu.prototype = Object.create(rune.scene.Scene.prototype);
+joller.scene.GameOverMenu.prototype.constructor = joller.scene.GameOverMenu;
+
+/**
+ * INIT
+ * Körs en gång när objektet skapas ***
+ */
+joller.scene.GameOverMenu.prototype.init = function() {
+	rune.scene.Scene.prototype.init.call(this);
+
+
+
+var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
+this.stage.addChild(backroundImg);
+
+
+this.lives = 0;
+
+this.initHud();
+
+this.GameOver();
+
+};
+
+
+/**
+ * UPDATE
+ * 
+ * Det mesta styrs utifrån update 
+ */
+joller.scene.GameOverMenu.prototype.update = function(step) {
+    rune.scene.Scene.prototype.update.call(this, step);
+
+
+	if (this.keyboard.justPressed("right")){
+		this.selectedIndex++;
+		if (this.selectedIndex >= this.menuArray.length) {
+			this.selectedIndex = 0;
+		}
+		if (this.menuArray[this.selectedIndex] == "play"){
+			this.arrow.x = 465;
+		}
+		if (this.menuArray[this.selectedIndex] == "menu"){
+			this.arrow.x = 650;
+		}
+	}
+
+	if (this.keyboard.justPressed("left")){
+		this.selectedIndex--;
+		if (this.selectedIndex &lt;= -1) {
+			this.selectedIndex = this.menuArray.length - 1;
+		}
+		if (this.menuArray[this.selectedIndex] == "play"){
+			this.arrow.x = 465;
+		}
+		if (this.menuArray[this.selectedIndex] == "menu"){
+			this.arrow.x = 650;
+		}
+	}
+
+	if (this.keyboard.justPressed("space")){
+		if (this.menuArray[this.selectedIndex] == "play"){
+			this.application.scenes.load([new joller.scene.Game]);
+		}
+		if (this.menuArray[this.selectedIndex] == "menu"){
+			this.application.scenes.load([new joller.scene.Menu]);
+		}
+	}
+
+};
+
+
+/**
+ * DISPOSE
+ */
+// Ta bort allt som init skapar, men vissa saker måste man aktivt peka på
+joller.scene.GameOverMenu.prototype.dispose = function() {
+    rune.scene.Scene.prototype.dispose.call(this);
+};
+
+/**
+ * Initierar HUD
+ */
+joller.scene.GameOverMenu.prototype.initHud = function(){
+	this.hud = new joller.ui.Hud(this.totalScore, this.lives);
+		this.cameras.getCamera(0).addChild(this.hud);
+};
+
+
+/**
+ * Metod som initerar game over-spriten samt menyval för att spela igen eller återgå till meny
+ */
+joller.scene.GameOverMenu.prototype.GameOver = function(){
+	
+	this.cryBaby = new rune.display.Sprite(
+		310,
+		90,
+		660,
+		420,
+		"",
+		"game_over"
+		);
+	
+		this.cryBaby.animations.add("idle", [0,1,2,3], 6, true);
+		this.cryBaby.animations.gotoAndPlay("idle");
+		this.stage.addChild(this.cryBaby);
+
+ this.arrow = new rune.display.Graphic(465,500,75,50,"","arrow");
+ this.arrow.scaleX = 0.8;
+ this.arrow.scaleY = 0.8;
+ this.stage.addChild(this.arrow);
+
+ var playBtn = new rune.display.Graphic(500,490,130,90,"","play_again2");
+ playBtn.scaleX = 0.9;
+ playBtn.scaleY = 0.9;
+ this.stage.addChild(playBtn);
+
+ var menuBtn = new rune.display.Graphic(690,490,130,90,"","to_menu");
+ menuBtn.scaleX = 0.9;
+ menuBtn.scaleY = 0.9;
+ this.stage.addChild(menuBtn);
+
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="joller.html">joller</a></li><li><a href="joller.data.html">data</a></li><li><a href="joller.scene.html">scene</a></li><li><a href="joller.system.html">system</a></li></ul><h3>Classes</h3><ul><li><a href="joller.data.Resources.html">Resources</a></li><li><a href="joller.entity.Bear.html">Bear</a></li><li><a href="joller.entity.Candy.html">Candy</a></li><li><a href="joller.entity.Car.html">Car</a></li><li><a href="joller.entity.Drop.html">Drop</a></li><li><a href="joller.entity.Duck.html">Duck</a></li><li><a href="joller.entity.Rattle.html">Rattle</a></li><li><a href="joller.entity.Star.html">Star</a></li><li><a href="joller.entity.Thing.html">Thing</a></li><li><a href="joller.entity.Umbrella.html">Umbrella</a></li><li><a href="joller.scene.Credits.html">Credits</a></li><li><a href="joller.scene.Hiscore.html">Hiscore</a></li><li><a href="joller.scene.Menu.html">Menu</a></li><li><a href="joller.scene.Rules.html">Rules</a></li><li><a href="joller.system.Main.html">Main</a></li><li><a href="joller.ui.Bubble.html">Bubble</a></li><li><a href="joller.ui.Hud.html">Hud</a></li><li><a href="joller.ui.Point.html">Point</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 02 2021 23:44:42 GMT+0200 (centraleuropeisk sommartid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
