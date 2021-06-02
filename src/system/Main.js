@@ -25,7 +25,7 @@
     rune.system.Main.call(this, {
         id: "com.vectorpanic.template",
         name: "joller",
-        scene: joller.scene.Menu,
+        scene: joller.scene.Rules,
         resources: joller.data.Resources,
 		useKeyboard: true,
 		debug: true,

@@ -44,7 +44,7 @@ joller.entity.Umbrella.prototype.constructor = joller.entity.Umbrella;
  */
 joller.entity.Umbrella.prototype.init = function() {
     joller.entity.Thing.prototype.init.call(this);
-    this.score = 50;
+    this.score = 0;
     
 };
 

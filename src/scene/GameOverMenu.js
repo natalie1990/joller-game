@@ -7,7 +7,6 @@
 
 	this.menuArray = ["play","menu"];
 	this.selectedIndex = 0;
-
 	this.arrow = null;
 	this.totalScore = totalScore;
 	this.cryBaby = null;
@@ -41,7 +40,7 @@ this.stage.addChild(backroundImg);
 
 this.lives = 0;
 
-this.initHud(this.totalScore);
+this.initHud();
 
 this.GameOver();
 

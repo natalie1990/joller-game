@@ -57,7 +57,7 @@ joller.scene.Menu.prototype.init = function() {
     if (this.music == null) {
         this.application.sounds.music.volume = 0.1;
         this.music = this.application.sounds.music.get("bgmusic");
-        //this.music.play();
+        this.music.play();
     }
 
     this.viewLogo();
@@ -96,7 +96,7 @@ joller.scene.Menu.prototype.update = function(step) {
                 this.arrow.x = 501;
                 this.arrow.y = 346;
           }
-        //console.log(this.options[this.selectedIndex]);
+
     } else if (this.keyboard.justPressed("down")) {
         this.selectedIndex++;
         if (this.selectedIndex >= this.options.length){
@@ -124,7 +124,6 @@ joller.scene.Menu.prototype.update = function(step) {
 	if (this.keyboard.justPressed("space")){
 
         if (this.options[this.selectedIndex] == "A"){
-            console.log(this.music);
             this.music.stop();
             this.application.scenes.load([new joller.scene.Game()]);
         }

@@ -43,7 +43,7 @@ joller.scene.Game.prototype.init = function() {
  */
 this.application.sounds.music.volume = 0.1;
 this.music = this.application.sounds.music.get("bgmusic");
-//this.music.play();
+this.music.play();
 
 /**
  * Skapar timer för fallande objekt
@@ -66,7 +66,6 @@ this.stage.addChild(backroundImg);
  * Intierar spelarens liv, spelaren och HUD:en
  */
 this.lives = 3;
-
 this.m_initPlayer();
 this.initHud();
 
@@ -74,13 +73,12 @@ this.initHud();
 
 
 /**
+ * 
  * UPDATE
  * 
- * Det mesta styrs utifrån update 
  */
 joller.scene.Game.prototype.update = function(step) {
     rune.scene.Scene.prototype.update.call(this, step);
-
 
 /**
  * Loop för att kontrollera kollision med leksak
@@ -137,7 +135,6 @@ if (this.m_player.x < 0){
 } else if (this.m_player.right > this.application.screen.width){
 	this.m_player.right = this.application.screen.width;
 }
-
 
 /**
  * Kontroller för styrning
@@ -283,17 +280,20 @@ joller.scene.Game.prototype.getPoints = function(scoreOfSelectedToy){
 	this.totalScore += scoreOfSelectedToy;
 	this.hud.updateScore(this.totalScore);
 
-	this.point.autoSize = true;
-	this.point.text = "+" + scoreOfSelectedToy;
-	this.point.centerX = this.m_player.centerX;
-	this.point.bottom = this.m_player.top;
-	this.stage.addChild(this.point);
+	if (scoreOfSelectedToy != 0){
+		this.point.autoSize = true;
+		this.point.text = "+" + scoreOfSelectedToy;
+		this.point.centerX = this.m_player.centerX;
+		this.point.bottom = this.m_player.top;
+		this.stage.addChild(this.point);
+	}
 };
 
-
+/**
+ * Metod som gör att ett liv förloras, skapar animation för miss samt uppdaterar HUD
+ */
 joller.scene.Game.prototype.looseLife = function(obj,flag){
 
-	this.m_player.flicker();
 
 	if (flag == "toy"){
 		this.bubble = new joller.ui.Bubble();
@@ -302,8 +302,8 @@ joller.scene.Game.prototype.looseLife = function(obj,flag){
 		this.stage.addChild(this.bubble);
 	}
 
-
 	if (this.powerUpMode == false){
+		this.m_player.flicker();
 		this.application.sounds.music.volume = 0.1;
 		var crySound = this.application.sounds.sound.get("sound_cry");
 		crySound.play();
@@ -315,7 +315,9 @@ joller.scene.Game.prototype.looseLife = function(obj,flag){
 	}
 };
 
-
+/**
+ * Metod som avslutar spelet och hanterar vilken Game Over-scen som ska laddas in
+ */
 joller.scene.Game.prototype.gameOver = function(){
 	var ranking = this.application.highscores.test(this.totalScore);
 	this.music.stop();
@@ -334,17 +336,24 @@ joller.scene.Game.prototype.gameOver = function(){
 	}
 };
 
+/**
+ * Metod som hanterar paraply-powerup, dvs sätter flaggan till false
+ */
 joller.scene.Game.prototype.umbrellaPower = function(){
 	this.powerUpMode = false;
 };
 
+/**
+ * Metod som hanterar godis-powerup, dvs sätter flaggan till false
+ */
 joller.scene.Game.prototype.candyMode = function(){
 	this.candyPower = false;
 };
 
+/**
+ * Metod som hanterar pause/resume av bakgrundsmusik
+ */
 joller.scene.Game.prototype.pauseMusic = function(){
-
-	//console.log(this.music.paused);
 
 	if (this.music.paused == false) {
 		this.music.pause();

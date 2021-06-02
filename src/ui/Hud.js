@@ -76,8 +76,21 @@ joller.ui.Hud.prototype.init = function() {
     this.livesText.y = 20;
     this.addChild(this.livesText);
 
-    this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub3");
-    this.addChild(this.bathtub);
+
+    switch(this.lives) {
+        case 2:
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub2");
+          break;
+        case 1:
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub1");
+            break;
+        case 0:
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub0");
+            break;
+        default:
+            this.bathtub = new rune.display.Graphic(860,23,170,60,"","tub3");
+      }
+      this.addChild(this.bathtub);
 
     this.soundImg = new rune.display.Graphic(1100,32,100,50,"","sOn");
     this.addChild(this.soundImg);

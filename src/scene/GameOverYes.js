@@ -15,6 +15,7 @@
 	this.okLet = null;
 	this.arrow = null;
 	this.totalScore = totalScore;
+	this.lives = 0;
 	this.cryBaby = null;
 
     /**
@@ -38,14 +39,10 @@ joller.scene.GameOverYes.prototype.constructor = joller.scene.GameOverYes;
 joller.scene.GameOverYes.prototype.init = function() {
 	rune.scene.Scene.prototype.init.call(this);
 
-
-
 var backroundImg = new rune.display.Graphic(0,0,1280,720,"","background");
 this.stage.addChild(backroundImg);
 
-this.lives = 0;
-
-this.initHud(this.totalScore);
+this.initHud();
 
 this.GameOver();
 
