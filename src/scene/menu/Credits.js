@@ -14,7 +14,7 @@
  * Game state.
  */
 joller.scene.Credits = function(music) {
-    this.music = music;
+    this.music = music; // Bakgrundsmusiken
     //--------------------------------------------------------------------------
     // Super call
     //--------------------------------------------------------------------------
@@ -96,6 +96,9 @@ joller.scene.Credits.prototype.dispose = function() {
     rune.scene.Scene.prototype.dispose.call(this);
 };
 
+/**
+ * Metod för att initera logotypen
+ */
 joller.scene.Credits.prototype.viewLogo = function(){
     var logo = new rune.display.Graphic(400,100,750,200,"","logo");
     logo.scaleX = 0.6;

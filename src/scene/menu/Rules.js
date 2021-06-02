@@ -19,13 +19,13 @@ joller.scene.Rules = function(music) {
     // Super call
     //--------------------------------------------------------------------------
     
-    this.m_player = null;
-    this.cryBaby = null;
-    this.umbrella = null;
-    this.star = null;
-    this.candy = null;
-    this.music = music;
-    this.tweens = null;
+    this.m_player = null;   // Avatar
+    this.cryBaby = null;    // Sprite för Game Over-bebis
+    this.umbrella = null;   // Graphic för paraplyt som ska animeras
+    this.star = null;       // Graphic för stjärnan som ska animeras
+    this.candy = null;      // Graphic för karamellen som ska animeras
+    this.music = music;     // Bakgrundsmusik
+    this.tweens = null;     // Tween för karamellen
 
     /**
      * ...
@@ -134,9 +134,9 @@ joller.scene.Rules.prototype.init = function() {
      this.star.flicker(Infinity,175);
      this.stage.addChild(this.star);
 
-     var starText = new rune.text.BitmapField("50 p","rules_font");
+     var starText = new rune.text.BitmapField("50p","rules_font");
      starText.autoSize = true;
-     starText.x = 470;
+     starText.x = 485;
      starText.y = 450;
      this.stage.addChild(starText);
 
@@ -285,15 +285,10 @@ joller.scene.Rules.prototype.dispose = function() {
     rune.scene.Scene.prototype.dispose.call(this);
 };
 
-joller.scene.Rules.prototype.viewLogo = function(){
-    var logo = new rune.display.Graphic(400,100,750,200,"","logo");
-    logo.scaleX = 0.6;
-    logo.scaleY = 0.6;
-    this.stage.addChild(logo);
-};
-
+/**
+ * Initierar sprites
+ */
 joller.scene.Rules.prototype.initSprites = function(){
-
 	this.m_player = new rune.display.Sprite(
 	153,
 	250,
@@ -321,6 +316,9 @@ joller.scene.Rules.prototype.initSprites = function(){
 
     };
 
+/**
+ * Hanterar tweenIn för karamell
+ */
     joller.scene.Rules.prototype.tweenIn = function() {
         this.tweens.add(this.candy,{
             scaleX: 0.8,
@@ -330,7 +328,10 @@ joller.scene.Rules.prototype.initSprites = function(){
             scope: this
         });
     };
-    
+
+/**
+ * Hanterar tweenOut för karamell
+ */
     joller.scene.Rules.prototype.tweenOut = function() {
         this.tweens.add(this.candy,{
             scaleX: 1.0,

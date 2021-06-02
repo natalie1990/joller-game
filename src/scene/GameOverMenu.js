@@ -111,12 +111,11 @@ joller.scene.GameOverMenu.prototype.initHud = function(){
 };
 
 
-
+/**
+ * Metod som initerar game over-spriten samt menyval för att spela igen eller återgå till meny
+ */
 joller.scene.GameOverMenu.prototype.GameOver = function(){
 	
-/**
- * Sprite for Game Over-image
- */
 	this.cryBaby = new rune.display.Sprite(
 		310,
 		90,
@@ -130,9 +129,6 @@ joller.scene.GameOverMenu.prototype.GameOver = function(){
 		this.cryBaby.animations.gotoAndPlay("idle");
 		this.stage.addChild(this.cryBaby);
 
-/**
- * Buttons for play again or back to menu
- */
  this.arrow = new rune.display.Graphic(465,500,75,50,"","arrow");
  this.arrow.scaleX = 0.8;
  this.arrow.scaleY = 0.8;

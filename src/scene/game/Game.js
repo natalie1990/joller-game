@@ -43,7 +43,7 @@ joller.scene.Game.prototype.init = function() {
  */
 this.application.sounds.music.volume = 0.1;
 this.music = this.application.sounds.music.get("bgmusic");
-this.music.play();
+this.music.play(true);
 
 /**
  * Skapar timer för fallande objekt

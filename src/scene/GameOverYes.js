@@ -6,17 +6,18 @@
  joller.scene.GameOverYes = function(totalScore) {
 
 	this.letterArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-	this.letters = [];
-	this.selectedIndex = 0;
-	this.letterIndex = 0;
-	this.letterOne = null;
-	this.letterTwo = null;
-	this.letterThree = null;
-	this.okLet = null;
-	this.arrow = null;
-	this.totalScore = totalScore;
-	this.lives = 0;
-	this.cryBaby = null;
+	this.letters = [];				// Array för valda bokstäver
+	this.selectedIndex = 0;			// Aktuellt index för vald bokstav
+	this.letterIndex = 0;			// Aktuellt index för om första, andra eller tredje bokstaven är vald 
+	this.letterOne = null;			// Första valbara bokstaven
+	this.letterTwo = null;			// Andra valbara bokstaven
+	this.letterThree = null;		// Tredje valbara bokstaven
+	this.okLet = null;				// Flagga för att visa att namn skrivits klart
+	this.arrow = null;				// Pil för att visa menyval
+	this.totalScore = totalScore;	// Spelarens totala poäng som skickas med som parameter
+	this.lives = 0;					// Variabel för att initera att 0 liv ska finnas
+	this.cryBaby = null;			// Game over sprite
+	this.tweens = null;
 
     /**
      * Supercall
@@ -46,6 +47,17 @@ this.initHud();
 
 this.GameOver();
 
+var conf = new rune.display.Graphic(342,400,600,150,"","confetti");
+this.stage.addChild(conf);
+
+this.tweens = new rune.tween.Tweens();
+this.tweens.add(conf,{
+	duration: 7000,
+	alpha: 0,
+	y: conf.y - 40,
+	scope: this
+});
+
 };
 
 
@@ -57,20 +69,20 @@ this.GameOver();
 joller.scene.GameOverYes.prototype.update = function(step) {
     rune.scene.Scene.prototype.update.call(this, step);
 
+    this.tweens.update(step);
+
 	if (this.keyboard.justPressed("up")){
 		this.selectedIndex--;
 		if (this.selectedIndex < 0) {
 			this.selectedIndex = this.letterArray.length - 1;
 		}
 		this.letters[this.letterIndex].text = this.letterArray[this.selectedIndex];
-		//console.log("Vald bokstav är " + this.letterArray[this.selectedIndex]);
 	} else if (this.keyboard.justPressed("down")) {
 		this.selectedIndex++;
 		if (this.selectedIndex >= this.letterArray.length){
 			this.selectedIndex = 0;
 		}
 		this.letters[this.letterIndex].text = this.letterArray[this.selectedIndex];
-		//console.log("Vald bokstav är " + this.letterArray[this.selectedIndex]);
 	}
 
 	if (this.keyboard.justPressed("right")){
@@ -128,11 +140,11 @@ joller.scene.GameOverYes.prototype.initHud = function(){
 		this.cameras.getCamera(0).addChild(this.hud);
 };
 
-
-
+/**
+ * Initerar grafik och text för Game Over-rutan där initialer kan matas in
+ */
 joller.scene.GameOverYes.prototype.GameOver = function(){
 	var ranking = this.application.highscores.test(this.totalScore);
-	console.log(ranking);
 	var GameOverYesOverScore = new rune.text.BitmapField("Total Score: " + this.totalScore);
 	
 /**
@@ -151,9 +163,6 @@ joller.scene.GameOverYes.prototype.GameOver = function(){
 		this.cryBaby.animations.gotoAndPlay("idle");
 		this.stage.addChild(this.cryBaby);
 
-/**
- * Instructions to the player (later replace with image)
- */
  var newHi = new rune.display.Graphic(475,470,350,110,"","hi");
  newHi.scaleX = 0.95;
  newHi.scaleY = 0.95;
@@ -164,11 +173,9 @@ enter.autoSize = true;
 enter.x = 445;
 enter.y = 540;
 this.stage.addChild(enter);
-
-
 	
 /**
- * The letters for typing the player's name
+ * bokstäverna för att välja spelarens namn
  */
 		this.letterOne = new rune.text.BitmapField("A","font");
 		this.letters.push(this.letterOne);
@@ -199,7 +206,5 @@ this.stage.addChild(enter);
 		this.stage.addChild(this.letterThree);
 		this.stage.addChild(this.okLet);
 		this.stage.addChild(this.arrow);
-
-
 
 };

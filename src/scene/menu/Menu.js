@@ -14,13 +14,14 @@
  * Game state.
  */
 joller.scene.Menu = function(music) {
-    this.music = music;
-    this.selectedIndex = 0;
-    this.options = [];
-    this.playBtn = null;
-    this.hiscoreBtn = null;
-    this.rulesBtn = null;
-    this.creditsBtn = null;
+    this.music = music;         // Bakgrundsmusik 
+    this.selectedIndex = 0;     // Aktuellt index för menyval
+    this.options = [];          // Array med menyval
+    this.playBtn = null;        // Knappval för att starta spelet
+    this.hiscoreBtn = null;     // Knappval för att gå till hiscorelista
+    this.rulesBtn = null;       // Knappval för att gå till regler
+    this.creditsBtn = null;     // Knappval för att se spelets credits-skärm
+
     this.arrow = new rune.display.Graphic(500,346,600,100,"","arrow");
     //--------------------------------------------------------------------------
     // Super call
@@ -57,7 +58,7 @@ joller.scene.Menu.prototype.init = function() {
     if (this.music == null) {
         this.application.sounds.music.volume = 0.1;
         this.music = this.application.sounds.music.get("bgmusic");
-        this.music.play();
+        this.music.play(true);
     }
 
     this.viewLogo();
@@ -146,6 +147,9 @@ joller.scene.Menu.prototype.dispose = function() {
     rune.scene.Scene.prototype.dispose.call(this);
 };
 
+/**
+ * Metod för att visa logotyp
+ */
 joller.scene.Menu.prototype.viewLogo = function(){
     var logo = new rune.display.Graphic(300,120,800,200,"","logo");
     logo.scaleX = 0.9;
@@ -154,6 +158,9 @@ joller.scene.Menu.prototype.viewLogo = function(){
     this.stage.addChild(logo);
 };
 
+/**
+ * Metod för att visa knappar
+ */
 joller.scene.Menu.prototype.showBtns = function(){
     this.playBtn = new rune.display.Graphic(540,340,600,100,"","play");
     this.stage.addChild(this.playBtn);

@@ -20,12 +20,12 @@
  * ...
  */
  joller.ui.Hud = function(totalScore,lives) {
-    this.score = totalScore;
-    this.lives = lives;
-    this.pointsText = null;
-    this.livesText = null;
-    this.bathtub = null;
-    this.soundImg = null;
+    this.score = totalScore;    // Variabel för spelarens totala poäng
+    this.lives = lives;         // Variabel för spelarens liv
+    this.pointsText = null;     // BitmapField för att visa poäng
+    this.livesText = null;      // BitmapField för att visa liv
+    this.bathtub = null;        // Graphic för att illustrera spelarens aktuella liv
+    this.soundImg = null;       // Graphic för att illustera mute/unmute
     //--------------------------------------------------------------------------
     //  Constructor call
     //--------------------------------------------------------------------------
@@ -112,6 +112,9 @@ joller.ui.Hud.prototype.dispose = function() {
 
 };
 
+/**
+ * Metod som uppdaterar spelarens poäng när ett nytt poäng erhålles
+ */
 joller.ui.Hud.prototype.updateScore = function(newScore){
     this.removeChild(this.pointsText);
     this.pointsText = new rune.text.BitmapField("","font");
@@ -122,6 +125,9 @@ joller.ui.Hud.prototype.updateScore = function(newScore){
     this.addChild(this.pointsText);
 };
 
+/**
+ * Metod för att uppdatera liv när ett liv förloras
+ */
 joller.ui.Hud.prototype.updateLives = function(newLives){
     this.removeChild(this.livesText);
     this.removeChild(this.bathtub);
@@ -148,6 +154,9 @@ joller.ui.Hud.prototype.updateLives = function(newLives){
 
 };
 
+/**
+ * Metod för att hantera mute/unmute 
+ */
 joller.ui.Hud.prototype.mute = function(mute){
 
     this.removeChild(this.soundImg);
